@@ -594,17 +594,13 @@ public class AdminProfile extends javax.swing.JPanel {
         int row = tableUser.getSelectedRow();
         DefaultTableModel model = (DefaultTableModel) tableUser.getModel();
         
-        try{
-            setTxtId(model.getValueAt(row, 0).toString());
-            setTxtUsername(model.getValueAt(row, 1).toString());
-            setTxtFname(model.getValueAt(row, 2).toString());
-            setTxtLname(model.getValueAt(row, 3).toString());
-            setTxtPass(model.getValueAt(row, 4).toString());
-            setTxtEmail(model.getValueAt(row, 5).toString());
-            setTxtPhone(model.getValueAt(row, 6).toString());
-        }
-        catch(Exception e){
-        }
+        setTxtId(model.getValueAt(row, 0).toString());
+        setTxtUsername(model.getValueAt(row, 1).toString());
+        setTxtFname(model.getValueAt(row, 2).toString());
+        setTxtLname(model.getValueAt(row, 3).toString());
+        setTxtPass(model.getValueAt(row, 4).toString());
+        setTxtEmail(model.getValueAt(row, 5) == null ? "" : model.getValueAt(row, 5).toString());
+        setTxtPhone(model.getValueAt(row, 6).toString());
     }//GEN-LAST:event_tableUserMouseClicked
 
     private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
