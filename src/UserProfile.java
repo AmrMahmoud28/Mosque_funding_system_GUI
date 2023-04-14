@@ -311,6 +311,7 @@ public class UserProfile extends javax.swing.JPanel {
             }
         });
 
+        toggleButton.setBackground(new java.awt.Color(124, 228, 249));
         toggleButton.setText("My Cases");
         toggleButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -494,10 +495,7 @@ public class UserProfile extends javax.swing.JPanel {
 
     private void toggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toggleButtonActionPerformed
         showMyCases = !showMyCases;
-        if(showMyCases)
-            toggleButton.setText("Active Cases");
-        else
-            toggleButton.setText("My Cases");
+        toggleButton.setText(showMyCases? "Active Cases": "My Cases");
         showTableCases();
     }//GEN-LAST:event_toggleButtonActionPerformed
 
