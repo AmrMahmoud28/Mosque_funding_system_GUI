@@ -196,15 +196,15 @@ public class AdminProfile extends javax.swing.JPanel {
 
         jLabel5 = new javax.swing.JLabel();
         loginbutton2 = new swing.MyButton();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        lableUser = new javax.swing.JLabel();
+        lableFname = new javax.swing.JLabel();
+        lableLname = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtLname = new swing.MyTextField();
         lableName = new javax.swing.JLabel();
         lableId = new javax.swing.JLabel();
         lableEmail = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
+        lableNid = new javax.swing.JLabel();
         txtId = new swing.MyTextField();
         addUserButton = new swing.MyButton();
         deleteUserButton = new swing.MyButton();
@@ -213,10 +213,10 @@ public class AdminProfile extends javax.swing.JPanel {
         logoutButton = new swing.MyButton();
         txtUsername = new swing.MyTextField();
         txtFname = new swing.MyTextField();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
+        lablePass = new javax.swing.JLabel();
+        lableE = new javax.swing.JLabel();
         txtEmail = new swing.MyTextField();
-        jLabel12 = new javax.swing.JLabel();
+        lableNumber = new javax.swing.JLabel();
         txtPhone = new swing.MyTextField();
         txtPass = new swing.MyPassword();
         updateUserButton = new swing.MyButton();
@@ -236,17 +236,17 @@ public class AdminProfile extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(68, 68, 68));
-        jLabel4.setText("Username");
+        lableUser.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lableUser.setForeground(new java.awt.Color(68, 68, 68));
+        lableUser.setText("Username");
 
-        jLabel6.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(68, 68, 68));
-        jLabel6.setText("First Name");
+        lableFname.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lableFname.setForeground(new java.awt.Color(68, 68, 68));
+        lableFname.setText("First Name");
 
-        jLabel7.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(68, 68, 68));
-        jLabel7.setText("Last Name");
+        lableLname.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lableLname.setForeground(new java.awt.Color(68, 68, 68));
+        lableLname.setText("Last Name");
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 48)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(68, 68, 68));
@@ -265,9 +265,9 @@ public class AdminProfile extends javax.swing.JPanel {
         lableEmail.setForeground(new java.awt.Color(68, 68, 68));
         lableEmail.setText("Email: amr@admin.mfs.com");
 
-        jLabel9.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(68, 68, 68));
-        jLabel9.setText("National ID");
+        lableNid.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lableNid.setForeground(new java.awt.Color(68, 68, 68));
+        lableNid.setText("National ID");
 
         addUserButton.setBackground(new java.awt.Color(124, 228, 249));
         addUserButton.setText("Add User");
@@ -325,17 +325,17 @@ public class AdminProfile extends javax.swing.JPanel {
             }
         });
 
-        jLabel10.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(68, 68, 68));
-        jLabel10.setText("Password");
+        lablePass.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lablePass.setForeground(new java.awt.Color(68, 68, 68));
+        lablePass.setText("Password");
 
-        jLabel11.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(68, 68, 68));
-        jLabel11.setText("Email");
+        lableE.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lableE.setForeground(new java.awt.Color(68, 68, 68));
+        lableE.setText("Email");
 
-        jLabel12.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(68, 68, 68));
-        jLabel12.setText("Phone Number");
+        lableNumber.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lableNumber.setForeground(new java.awt.Color(68, 68, 68));
+        lableNumber.setText("Phone Number");
 
         updateUserButton.setBackground(new java.awt.Color(124, 228, 249));
         updateUserButton.setText("Update User");
@@ -382,13 +382,13 @@ public class AdminProfile extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel11)
-                            .addComponent(jLabel12))
+                            .addComponent(lableNid)
+                            .addComponent(lableUser)
+                            .addComponent(lableFname)
+                            .addComponent(lableLname)
+                            .addComponent(lablePass)
+                            .addComponent(lableE)
+                            .addComponent(lableNumber))
                         .addGap(25, 25, 25)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(txtId, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
@@ -429,31 +429,31 @@ public class AdminProfile extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel9)
+                            .addComponent(lableNid)
                             .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lableUser, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtUsername, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lableFname, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(txtFname, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
+                            .addComponent(lableLname)
                             .addComponent(txtLname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel10)
+                            .addComponent(lablePass)
                             .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel11)
+                            .addComponent(lableE)
                             .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel12)
+                            .addComponent(lableNumber)
                             .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
@@ -598,9 +598,9 @@ public class AdminProfile extends javax.swing.JPanel {
         setTxtUsername(model.getValueAt(row, 1).toString());
         setTxtFname(model.getValueAt(row, 2).toString());
         setTxtLname(model.getValueAt(row, 3).toString());
-        setTxtPass(model.getValueAt(row, 4).toString());
+        setTxtPass((showCases? "$" : "") + model.getValueAt(row, 4).toString());
         setTxtEmail(model.getValueAt(row, 5) == null ? "" : model.getValueAt(row, 5).toString());
-        setTxtPhone(model.getValueAt(row, 6).toString());
+        setTxtPhone(model.getValueAt(row, showCases? 7 : 6).toString());
     }//GEN-LAST:event_tableUserMouseClicked
 
     private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
@@ -612,6 +612,13 @@ public class AdminProfile extends javax.swing.JPanel {
         showCases = !showCases;
         toggleButton.setText(showCases? "Show Users" : "Show Cases");
         txtPass.setEchoChar(showCases? (char) 0 : '*');
+        lableNid.setText(showCases? "Case ID" : "National ID");
+        lableUser.setText(showCases? "Case Status" : "Username");
+        lableFname.setText(showCases? "Category" : "First Name");
+        lableLname.setText(showCases? "Mosque" : "Last Name");
+        lablePass.setText(showCases? "Goal Amount" : "Password");
+        lableE.setText(showCases? "Description" : "Email");
+        lableNumber.setText(showCases? "User ID" : "Phone Number");
         showTableUsers();
     }//GEN-LAST:event_toggleButtonActionPerformed
 
@@ -620,19 +627,19 @@ public class AdminProfile extends javax.swing.JPanel {
     private swing.MyButton addUserButton;
     private swing.MyButton clearButton;
     private swing.MyButton deleteUserButton;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lableE;
     private javax.swing.JLabel lableEmail;
+    private javax.swing.JLabel lableFname;
     private javax.swing.JLabel lableId;
+    private javax.swing.JLabel lableLname;
     private javax.swing.JLabel lableName;
+    private javax.swing.JLabel lableNid;
+    private javax.swing.JLabel lableNumber;
+    private javax.swing.JLabel lablePass;
+    private javax.swing.JLabel lableUser;
     private swing.MyButton loginbutton2;
     private swing.MyButton logoutButton;
     private javax.swing.JTable tableUser;
