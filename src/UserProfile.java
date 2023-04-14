@@ -126,21 +126,6 @@ public class UserProfile extends javax.swing.JPanel {
                 
                 pst.setString(1, "active");
             }
-//            String sql = "SELECT * FROM "
-//                    + "(SELECT case_id, case_status, category_name, mosque_name, goal_amount, case_desc, case_date, user_id "
-//                    + "FROM case, category, mosque "
-//                    + "WHERE user_id = ? AND case.category_id = category.category_id AND case.mosque_id = mosque.mosque_id "
-//                    + "UNION "
-//                    + "SELECT case_id, case_status, category_name, mosque_name, goal_amount, case_desc, case_date, user_id "
-//                    + "FROM case, category, mosque "
-//                    + "WHERE case_status = ? AND case.category_id = category.category_id AND case.mosque_id = mosque.mosque_id) "
-//                    + "ORDER BY 1 DESC";
-//
-//            con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
-//            pst = con.prepareStatement(sql);
-//
-//            pst.setInt(1, getNational_id());
-//            pst.setString(2, "active");
 
             rs = pst.executeQuery();
 
