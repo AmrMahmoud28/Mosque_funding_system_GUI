@@ -24,6 +24,7 @@ public class UserProfile extends javax.swing.JPanel {
     ResultSet rs = null;
 
     private int national_id;
+    private boolean showMyCases = false;
 
     public UserProfile(int national_id) {
         this.national_id = national_id;
@@ -103,21 +104,43 @@ public class UserProfile extends javax.swing.JPanel {
     // ***************************************************************
     private void showTableCases() {
         try {
-            String sql = "SELECT * FROM "
-                    + "(SELECT case_id, case_status, category_name, mosque_name, goal_amount, case_desc, case_date, user_id "
-                    + "FROM case, category, mosque "
-                    + "WHERE user_id = ? AND case.category_id = category.category_id AND case.mosque_id = mosque.mosque_id "
-                    + "UNION "
-                    + "SELECT case_id, case_status, category_name, mosque_name, goal_amount, case_desc, case_date, user_id "
-                    + "FROM case, category, mosque "
-                    + "WHERE case_status = ? AND case.category_id = category.category_id AND case.mosque_id = mosque.mosque_id) "
-                    + "ORDER BY 1 DESC";
-
-            con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
-            pst = con.prepareStatement(sql);
-
-            pst.setInt(1, getNational_id());
-            pst.setString(2, "active");
+            if(showMyCases){
+                String sql = "SELECT case_id, case_status, category_name, mosque_name, goal_amount, case_desc, case_date "
+                        + "FROM case, category, mosque "
+                        + "WHERE user_id = ? AND case.category_id = category.category_id AND case.mosque_id = mosque.mosque_id "
+                        + "ORDER BY 1 DESC";
+                
+                con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
+                pst = con.prepareStatement(sql);
+                
+                pst.setInt(1, getNational_id());
+            }
+            else{
+                String sql = "SELECT case_id, case_status, category_name, mosque_name, goal_amount, case_desc, case_date "
+                        + "FROM case, category, mosque "
+                        + "WHERE case_status = ? AND case.category_id = category.category_id AND case.mosque_id = mosque.mosque_id "
+                        + "ORDER BY 1 DESC";
+                
+                con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
+                pst = con.prepareStatement(sql);
+                
+                pst.setString(1, "active");
+            }
+//            String sql = "SELECT * FROM "
+//                    + "(SELECT case_id, case_status, category_name, mosque_name, goal_amount, case_desc, case_date, user_id "
+//                    + "FROM case, category, mosque "
+//                    + "WHERE user_id = ? AND case.category_id = category.category_id AND case.mosque_id = mosque.mosque_id "
+//                    + "UNION "
+//                    + "SELECT case_id, case_status, category_name, mosque_name, goal_amount, case_desc, case_date, user_id "
+//                    + "FROM case, category, mosque "
+//                    + "WHERE case_status = ? AND case.category_id = category.category_id AND case.mosque_id = mosque.mosque_id) "
+//                    + "ORDER BY 1 DESC";
+//
+//            con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
+//            pst = con.prepareStatement(sql);
+//
+//            pst.setInt(1, getNational_id());
+//            pst.setString(2, "active");
 
             rs = pst.executeQuery();
 
@@ -190,6 +213,7 @@ public class UserProfile extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tableCase = new javax.swing.JTable();
         logoutButton = new swing.MyButton();
+        toggleButton = new swing.MyButton();
 
         jLabel5.setForeground(new java.awt.Color(68, 68, 68));
         jLabel5.setText("Username");
@@ -287,6 +311,13 @@ public class UserProfile extends javax.swing.JPanel {
             }
         });
 
+        toggleButton.setText("My Cases");
+        toggleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                toggleButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -310,6 +341,8 @@ public class UserProfile extends javax.swing.JPanel {
                         .addComponent(createCaseButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(74, 74, 74)
                         .addComponent(deleteCaseButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(74, 74, 74)
+                        .addComponent(toggleButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(74, 74, 74)
                         .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -365,7 +398,8 @@ public class UserProfile extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(createCaseButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(deleteCaseButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(toggleButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(77, 77, 77))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -458,6 +492,15 @@ public class UserProfile extends javax.swing.JPanel {
         setTxtId(model.getValueAt(row, 0).toString());
     }//GEN-LAST:event_tableCaseMouseClicked
 
+    private void toggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toggleButtonActionPerformed
+        showMyCases = !showMyCases;
+        if(showMyCases)
+            toggleButton.setText("Active Cases");
+        else
+            toggleButton.setText("My Cases");
+        showTableCases();
+    }//GEN-LAST:event_toggleButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private swing.MyButton createCaseButton;
@@ -475,6 +518,7 @@ public class UserProfile extends javax.swing.JPanel {
     private swing.MyButton loginbutton2;
     private swing.MyButton logoutButton;
     private javax.swing.JTable tableCase;
+    private swing.MyButton toggleButton;
     private javax.swing.JComboBox<String> txtCategory;
     private swing.MyTextField txtDesc;
     private swing.MyTextField txtId;

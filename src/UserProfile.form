@@ -64,6 +64,8 @@
                       <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
                       <Component id="deleteCaseButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
+                      <Component id="toggleButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
                       <Component id="logoutButton" min="-2" pref="80" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -135,6 +137,7 @@
                   <Component id="createCaseButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="deleteCaseButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="logoutButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="toggleButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="77" max="-2" attributes="0"/>
           </Group>
@@ -361,6 +364,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="logoutButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="swing.MyButton" name="toggleButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="My Cases"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="toggleButtonActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
