@@ -486,7 +486,7 @@ public class AdminProfile extends javax.swing.JPanel {
 
     private void addUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addUserButtonActionPerformed
         if(showCases){
-            if(!getTxtId().equals(""))
+            if(!getTxtId().equals("") && getTxtId().matches("[0-9]+"))
                 acceptCase(Integer.parseInt(getTxtId()));
             else
                 JOptionPane.showMessageDialog(this, "Please Enter your Case ID!!");
@@ -530,34 +530,42 @@ public class AdminProfile extends javax.swing.JPanel {
     }//GEN-LAST:event_addUserButtonActionPerformed
 
     private void deleteUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteUserButtonActionPerformed
-        if(!getTxtId().equals("")){
-            try {
-                String sql = "DELETE FROM users WHERE national_id = ?";
-                con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
-                pst = con.prepareStatement(sql);
-                
-                pst.setString(1, getTxtId());
-                
-                int isDone = pst.executeUpdate();
-                con.close();
-                if (isDone == 1)
-                    JOptionPane.showMessageDialog(this, "User was Deleted successfully");
-                else
-                    JOptionPane.showMessageDialog(this, "No User with that National ID");
-                
-                showTableUsers();
-            }
-            catch (Exception e) {
-                if(e.toString().contains("child"))
-                    JOptionPane.showMessageDialog(this, "This Account is active and cannot be Deleted");
-                else
-                    JOptionPane.showMessageDialog(this, e);
-            }
+        if(showCases){
+            if(!getTxtId().equals("") && getTxtId().matches("[0-9]+"))
+                rejectCase(Integer.parseInt(getTxtId()));
+            else
+                JOptionPane.showMessageDialog(this, "Please Enter your Case ID!!");
         }
         else{
-            JOptionPane.showMessageDialog(this, "Please Enter User National ID!!");
+            if(!getTxtId().equals("")){
+                try {
+                    String sql = "DELETE FROM users WHERE national_id = ?";
+                    con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
+                    pst = con.prepareStatement(sql);
+
+                    pst.setString(1, getTxtId());
+
+                    int isDone = pst.executeUpdate();
+                    con.close();
+                    if (isDone == 1)
+                        JOptionPane.showMessageDialog(this, "User was Deleted successfully");
+                    else
+                        JOptionPane.showMessageDialog(this, "No User with that National ID");
+
+                    showTableUsers();
+                }
+                catch (Exception e) {
+                    if(e.toString().contains("child"))
+                        JOptionPane.showMessageDialog(this, "This Account is active and cannot be Deleted");
+                    else
+                        JOptionPane.showMessageDialog(this, e);
+                }
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "Please Enter User National ID!!");
+            }
+            clearAll();
         }
-        clearAll();
     }//GEN-LAST:event_deleteUserButtonActionPerformed
 
     private void loginbutton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginbutton2ActionPerformed
@@ -689,9 +697,10 @@ public class AdminProfile extends javax.swing.JPanel {
                         
                         int isDone = pst.executeUpdate();
                         if (isDone == 1)
-                            JOptionPane.showMessageDialog(this, "Case with ID " + caseId + " has been Accepted\nThe Goal amount is $" + goalAmount);
+                            JOptionPane.showMessageDialog(this, "Case with ID " + caseId + " is Accepted\nThe Goal amount is $" + goalAmount);
                         else
                             JOptionPane.showMessageDialog(this, "Something went wrong!!");
+                        clearAll();
                         showTableUsers();
                     }
                     else
@@ -710,6 +719,38 @@ public class AdminProfile extends javax.swing.JPanel {
         catch (Exception e) {
             JOptionPane.showMessageDialog(this, e);
         }
+    }
+    
+    private void rejectCase(int caseId){
+        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to REJECT the case with ID " + caseId + "?", "Confirm",
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if(confirm == JOptionPane.YES_OPTION){
+            try {
+                String sql = "UPDATE case SET "
+                    + "case_status = ? WHERE case_id = ? AND case_status = ?";
+                
+                con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
+                pst = con.prepareStatement(sql);
+
+                pst.setString(1, "cancelled");
+                pst.setInt(2, caseId);
+                pst.setString(3, "pending");
+                
+                int isDone = pst.executeUpdate();
+                con.close();
+                if (isDone == 1)
+                    JOptionPane.showMessageDialog(this, "Case with ID " + caseId + " is Rejected");
+                else
+                    JOptionPane.showMessageDialog(this, "You can ONLY reject Pending cases!!");
+                clearAll();
+                showTableUsers();
+            }
+            catch (Exception e) {
+                JOptionPane.showMessageDialog(this, e);
+            }
+        }
+        else
+            clearAll();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
