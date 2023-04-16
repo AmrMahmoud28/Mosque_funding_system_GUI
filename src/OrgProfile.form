@@ -72,12 +72,12 @@
                       <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
                           <Component id="txtId" pref="200" max="32767" attributes="0"/>
-                          <Component id="txtLname" alignment="0" max="32767" attributes="0"/>
-                          <Component id="txtUsername" max="32767" attributes="0"/>
-                          <Component id="txtFname" max="32767" attributes="0"/>
-                          <Component id="txtEmail" alignment="0" max="32767" attributes="0"/>
-                          <Component id="txtPhone" alignment="0" max="32767" attributes="0"/>
-                          <Component id="txtPass" max="32767" attributes="0"/>
+                          <Component id="txtMosque" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txtStatus" max="32767" attributes="0"/>
+                          <Component id="txtCate" max="32767" attributes="0"/>
+                          <Component id="txtDesc" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txtAdmin" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txtGoal" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                       <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
@@ -122,32 +122,32 @@
                       <EmptySpace pref="40" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="lableStatus" alignment="1" min="-2" pref="22" max="-2" attributes="0"/>
-                          <Component id="txtUsername" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtStatus" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="40" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="lableCate" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtFname" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtCate" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="40" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lableMosque" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtLname" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtMosque" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="40" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lableGoal" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtPass" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtGoal" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="40" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lableDesc" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtEmail" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtDesc" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="40" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lableAdmin" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtPhone" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtAdmin" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="100" max="32767" attributes="0"/>
                   </Group>
@@ -215,7 +215,7 @@
         <Property name="text" type="java.lang.String" value="Organization"/>
       </Properties>
     </Component>
-    <Component class="swing.MyTextField" name="txtLname">
+    <Component class="swing.MyTextField" name="txtMosque">
     </Component>
     <Component class="javax.swing.JLabel" name="labelName">
       <Properties>
@@ -359,11 +359,11 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="logoutButtonActionPerformed"/>
       </Events>
     </Component>
-    <Component class="swing.MyTextField" name="txtUsername">
+    <Component class="swing.MyTextField" name="txtStatus">
     </Component>
-    <Component class="swing.MyTextField" name="txtFname">
+    <Component class="swing.MyTextField" name="txtCate">
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtFnameActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtCateActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lableGoal">
@@ -388,7 +388,7 @@
         <Property name="text" type="java.lang.String" value="Description"/>
       </Properties>
     </Component>
-    <Component class="swing.MyTextField" name="txtEmail">
+    <Component class="swing.MyTextField" name="txtDesc">
     </Component>
     <Component class="javax.swing.JLabel" name="lableAdmin">
       <Properties>
@@ -401,9 +401,9 @@
         <Property name="text" type="java.lang.String" value="Admin ID"/>
       </Properties>
     </Component>
-    <Component class="swing.MyTextField" name="txtPhone">
+    <Component class="swing.MyTextField" name="txtAdmin">
     </Component>
-    <Component class="swing.MyPassword" name="txtPass">
+    <Component class="swing.MyPassword" name="txtGoal">
     </Component>
     <Component class="swing.MyButton" name="clearButton">
       <Properties>
@@ -434,6 +434,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Update Goal"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="updateGoalButtonActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

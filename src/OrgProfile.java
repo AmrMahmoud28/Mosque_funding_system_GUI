@@ -32,26 +32,26 @@ public class OrgProfile extends javax.swing.JPanel {
         
         initComponents();
         showTableUsers();
-        txtPass.setEchoChar((char) 0);
+        txtGoal.setEchoChar((char) 0);
         System.out.println("Org");
     }
     
     // ***************************************************************
 
-    public String getTxtEmail() {
-        return txtEmail.getText().trim();
+    public String getTxtDesc() {
+        return txtDesc.getText().trim();
     }
 
-    public void setTxtEmail(String txtEmail) {
-        this.txtEmail.setText(txtEmail);
+    public void setTxtDesc(String txtDesc) {
+        this.txtDesc.setText(txtDesc);
     }
 
-    public String getTxtFname() {
-        return txtFname.getText().trim();
+    public String getTxtCate() {
+        return txtCate.getText().trim();
     }
 
-    public void setTxtFname(String txtFname) {
-        this.txtFname.setText(txtFname);
+    public void setTxtCate(String txtCate) {
+        this.txtCate.setText(txtCate);
     }
 
     public String getTxtId() {
@@ -62,36 +62,36 @@ public class OrgProfile extends javax.swing.JPanel {
         this.txtId.setText(txtId);
     }
 
-    public String getTxtLname() {
-        return txtLname.getText().trim();
+    public String getTxtMosque() {
+        return txtMosque.getText().trim();
     }
 
-    public void setTxtLname(String txtLname) {
-        this.txtLname.setText(txtLname);
+    public void setTxtMosque(String txtMosque) {
+        this.txtMosque.setText(txtMosque);
     }
 
-    public String getTxtPass() {
-        return String.valueOf(txtPass.getPassword()).trim();
+    public String getTxtGoal() {
+        return String.valueOf(txtGoal.getPassword()).trim();
     }
 
-    public void setTxtPass(String txtPass) {
-        this.txtPass.setText(txtPass);
+    public void setTxtGoal(String txtGoal) {
+        this.txtGoal.setText(txtGoal);
     }
 
-    public String getTxtPhone() {
-        return txtPhone.getText().trim();
+    public String getTxtAdmin() {
+        return txtAdmin.getText().trim();
     }
 
-    public void setTxtPhone(String txtPhone) {
-        this.txtPhone.setText(txtPhone);
+    public void setTxtAdmin(String txtAdmin) {
+        this.txtAdmin.setText(txtAdmin);
     }
 
-    public String getTxtUsername() {
-        return txtUsername.getText().trim();
+    public String getTxtStatus() {
+        return txtStatus.getText().trim();
     }
 
-    public void setTxtUsername(String txtUsername) {
-        this.txtUsername.setText(txtUsername);
+    public void setTxtStatus(String txtStatus) {
+        this.txtStatus.setText(txtStatus);
     }
     
     // ***************************************************************
@@ -147,23 +147,23 @@ public class OrgProfile extends javax.swing.JPanel {
     }
     
     private boolean isTextEmpty(){
-        return getTxtEmail().equals("")
-                || getTxtFname().equals("")
+        return getTxtAdmin().equals("")
+                || getTxtCate().equals("")
                 || getTxtId().equals("")
-                || getTxtLname().equals("")
-                || getTxtPass().equals("")
-                || getTxtPhone().equals("")
-                || getTxtUsername().equals("");
+                || getTxtDesc().equals("")
+                || getTxtGoal().equals("")
+                || getTxtMosque().equals("")
+                || getTxtStatus().equals("");
     }
     
     private void clearAll(){
-        setTxtEmail("");
-        setTxtFname("");
+        setTxtAdmin("");
+        setTxtCate("");
         setTxtId("");
-        setTxtLname("");
-        setTxtPass("");
-        setTxtPhone("");
-        setTxtUsername("");
+        setTxtDesc("");
+        setTxtGoal("");
+        setTxtMosque("");
+        setTxtStatus("");
     }
     
     // ***************************************************************
@@ -217,7 +217,7 @@ public class OrgProfile extends javax.swing.JPanel {
         lableCate = new javax.swing.JLabel();
         lableMosque = new javax.swing.JLabel();
         labelTitle = new javax.swing.JLabel();
-        txtLname = new swing.MyTextField();
+        txtMosque = new swing.MyTextField();
         labelName = new javax.swing.JLabel();
         labelId = new javax.swing.JLabel();
         lableEmail = new javax.swing.JLabel();
@@ -228,14 +228,14 @@ public class OrgProfile extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tableUser = new javax.swing.JTable();
         logoutButton = new swing.MyButton();
-        txtUsername = new swing.MyTextField();
-        txtFname = new swing.MyTextField();
+        txtStatus = new swing.MyTextField();
+        txtCate = new swing.MyTextField();
         lableGoal = new javax.swing.JLabel();
         lableDesc = new javax.swing.JLabel();
-        txtEmail = new swing.MyTextField();
+        txtDesc = new swing.MyTextField();
         lableAdmin = new javax.swing.JLabel();
-        txtPhone = new swing.MyTextField();
-        txtPass = new swing.MyPassword();
+        txtAdmin = new swing.MyTextField();
+        txtGoal = new swing.MyPassword();
         clearButton = new swing.MyButton();
         toggleButton = new swing.MyButton();
         updateGoalButton = new swing.MyButton();
@@ -336,9 +336,9 @@ public class OrgProfile extends javax.swing.JPanel {
             }
         });
 
-        txtFname.addActionListener(new java.awt.event.ActionListener() {
+        txtCate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFnameActionPerformed(evt);
+                txtCateActionPerformed(evt);
             }
         });
 
@@ -372,6 +372,11 @@ public class OrgProfile extends javax.swing.JPanel {
 
         updateGoalButton.setBackground(new java.awt.Color(124, 228, 249));
         updateGoalButton.setText("Update Goal");
+        updateGoalButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateGoalButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -404,12 +409,12 @@ public class OrgProfile extends javax.swing.JPanel {
                         .addGap(25, 25, 25)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(txtId, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                            .addComponent(txtLname, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtUsername, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtFname, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtPhone, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtPass, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(txtMosque, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtCate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtDesc, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtAdmin, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtGoal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(30, 30, 30)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addGap(36, 36, 36))
@@ -446,27 +451,27 @@ public class OrgProfile extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lableStatus, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtUsername, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtStatus, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lableCate, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtFname, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtCate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lableMosque)
-                            .addComponent(txtLname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtMosque, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lableGoal)
-                            .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtGoal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lableDesc)
-                            .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtDesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lableAdmin)
-                            .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -504,21 +509,21 @@ public class OrgProfile extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_logoutButtonActionPerformed
 
-    private void txtFnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFnameActionPerformed
+    private void txtCateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCateActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtFnameActionPerformed
+    }//GEN-LAST:event_txtCateActionPerformed
 
     private void tableUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableUserMouseClicked
         int row = tableUser.getSelectedRow();
         DefaultTableModel model = (DefaultTableModel) tableUser.getModel();
         
         setTxtId(model.getValueAt(row, 0).toString());
-        setTxtUsername(model.getValueAt(row, 1).toString());
-        setTxtFname(model.getValueAt(row, 2).toString());
-        setTxtLname(model.getValueAt(row, 3).toString());
-        setTxtPass("$" + model.getValueAt(row, 4).toString());
-        setTxtEmail(model.getValueAt(row, 5) == null ? "" : model.getValueAt(row, 5).toString());
-        setTxtPhone(model.getValueAt(row, showPending? 6 : 7).toString());
+        setTxtStatus(model.getValueAt(row, 1).toString());
+        setTxtCate(model.getValueAt(row, 2).toString());
+        setTxtMosque(model.getValueAt(row, 3).toString());
+        setTxtGoal("$" + model.getValueAt(row, 4).toString());
+        setTxtDesc(model.getValueAt(row, 5) == null ? "" : model.getValueAt(row, 5).toString());
+        setTxtAdmin(model.getValueAt(row, showPending? 6 : 7).toString());
     }//GEN-LAST:event_tableUserMouseClicked
 
     private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
@@ -532,6 +537,13 @@ public class OrgProfile extends javax.swing.JPanel {
         
         showTableUsers();
     }//GEN-LAST:event_toggleButtonActionPerformed
+
+    private void updateGoalButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateGoalButtonActionPerformed
+        if(!getTxtId().equals("") && getTxtId().matches("[0-9]+"))
+                updateCase(Integer.parseInt(getTxtId()));
+            else
+                JOptionPane.showMessageDialog(this, "Please Enter your Case ID!!");
+    }//GEN-LAST:event_updateGoalButtonActionPerformed
     
     private void acceptCase(int caseId){
         try {
@@ -617,6 +629,58 @@ public class OrgProfile extends javax.swing.JPanel {
         else
             clearAll();
     }
+    
+    private void updateCase(int caseId){
+        try {
+            String sql = "SELECT * FROM case WHERE case_id = ? AND case_status = ?";
+            
+            con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
+            pst = con.prepareStatement(sql);
+            
+            pst.setInt(1, caseId);
+            pst.setString(2, "active");
+
+            rs = pst.executeQuery();
+            if(rs.next()){
+                String input = JOptionPane.showInputDialog(this, "Enter the new Goal Amount", "Updating Goal Amount of Case with ID " + caseId, JOptionPane.INFORMATION_MESSAGE);
+        
+                if(input != null){
+                    if(input.matches("[0-9]+")){
+                        double goalAmount = Double.parseDouble(input);
+                        
+                        sql = "UPDATE case SET "
+                                + "goal_amount = ? WHERE case_id = ?";
+                        
+                        pst = con.prepareStatement(sql);
+                        
+                        pst.setDouble(1, goalAmount);
+                        pst.setInt(2, caseId);
+                        
+                        int isDone = pst.executeUpdate();
+                        if (isDone == 1)
+                            JOptionPane.showMessageDialog(this, "Goal Amount of Case with ID " + caseId + " is Updated\nThe new Goal amount is $" + goalAmount);
+                        else
+                            JOptionPane.showMessageDialog(this, "Something went wrong!!");
+                        clearAll();
+                        showTableUsers();
+                    }
+                    else
+                        JOptionPane.showMessageDialog(this, "Please Enter a valid number!!");
+                }
+                else{
+                    clearAll();
+                }
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "You can ONLY update Active cases!!");
+                clearAll();
+            }
+            con.close();
+        } 
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private swing.MyButton acceptCaseButton;
@@ -639,13 +703,13 @@ public class OrgProfile extends javax.swing.JPanel {
     private swing.MyButton rejectCaseButton;
     private javax.swing.JTable tableUser;
     private swing.MyButton toggleButton;
-    private swing.MyTextField txtEmail;
-    private swing.MyTextField txtFname;
+    private swing.MyTextField txtAdmin;
+    private swing.MyTextField txtCate;
+    private swing.MyTextField txtDesc;
+    private swing.MyPassword txtGoal;
     private swing.MyTextField txtId;
-    private swing.MyTextField txtLname;
-    private swing.MyPassword txtPass;
-    private swing.MyTextField txtPhone;
-    private swing.MyTextField txtUsername;
+    private swing.MyTextField txtMosque;
+    private swing.MyTextField txtStatus;
     private swing.MyButton updateGoalButton;
     // End of variables declaration//GEN-END:variables
 }
