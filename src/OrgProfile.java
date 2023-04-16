@@ -25,14 +25,14 @@ public class OrgProfile extends javax.swing.JPanel {
     ResultSet rs = null;
     
     private int org_id;
-    private boolean showCases = false;
     private boolean showPending = false;
     
-    public OrgProfile(int admin_id) {
-        this.org_id = admin_id;
+    public OrgProfile(int org_id) {
+        this.org_id = org_id;
         
         initComponents();
         showTableUsers();
+        txtPass.setEchoChar((char) 0);
         System.out.println("Org");
     }
     
@@ -170,31 +170,26 @@ public class OrgProfile extends javax.swing.JPanel {
     
     private void showTableUsers(){
         try {
-            if(showCases){
-                if(showPending){
-                    String sql = "SELECT case_id, case_status, category_name, mosque_name, goal_amount, case_desc, case_date, user_id "
-                        + "FROM case, category, mosque "
-                        + "WHERE case_status = ? AND case.category_id = category.category_id AND case.mosque_id = mosque.mosque_id "
-                        + "ORDER BY 1 DESC";
-                
-                    con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
-                    pst = con.prepareStatement(sql);
+            if(showPending){
+                String sql = "SELECT case_id, case_status, category_name, mosque_name, goal_amount, case_desc, case_date "
+                    + "FROM case, category, mosque "
+                    + "WHERE case_status = ? AND case.category_id = category.category_id AND case.mosque_id = mosque.mosque_id "
+                    + "ORDER BY 1 DESC";
 
-                    pst.setString(1, "pending");
-                }
-                else{
-                    String sql = "SELECT case_id, case_status, category_name, mosque_name, goal_amount, case_desc, case_date, user_id "
-                        + "FROM case, category, mosque "
-                        + "WHERE case.category_id = category.category_id AND case.mosque_id = mosque.mosque_id "
-                        + "ORDER BY 1 DESC";
-                    con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
-                    pst = con.prepareStatement(sql);
-                }
-            }
-            else{
-                String sql = "SELECT * FROM users";
                 con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
                 pst = con.prepareStatement(sql);
+
+                pst.setString(1, "pending");
+            }
+            else{
+                String sql = "SELECT case_id, case_status, category_name, mosque_name, goal_amount, case_desc, case_date, adminno "
+                    + "FROM case, category, mosque, works_on "
+                    + "WHERE orgno = ? AND case_id = caseno AND case.category_id = category.category_id AND case.mosque_id = mosque.mosque_id "
+                    + "ORDER BY 1 DESC";
+                con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
+                pst = con.prepareStatement(sql);
+                
+                pst.setInt(1, getOrg_id());
             }
             
             rs = pst.executeQuery();
@@ -218,32 +213,32 @@ public class OrgProfile extends javax.swing.JPanel {
 
         jLabel5 = new javax.swing.JLabel();
         loginbutton2 = new swing.MyButton();
-        lableUser = new javax.swing.JLabel();
-        lableFname = new javax.swing.JLabel();
-        lableLname = new javax.swing.JLabel();
+        lableStatus = new javax.swing.JLabel();
+        lableCate = new javax.swing.JLabel();
+        lableMosque = new javax.swing.JLabel();
         labelTitle = new javax.swing.JLabel();
         txtLname = new swing.MyTextField();
         labelName = new javax.swing.JLabel();
         labelId = new javax.swing.JLabel();
         lableEmail = new javax.swing.JLabel();
-        lableNid = new javax.swing.JLabel();
+        lableCid = new javax.swing.JLabel();
         txtId = new swing.MyTextField();
-        addUserButton = new swing.MyButton();
-        deleteUserButton = new swing.MyButton();
+        acceptCaseButton = new swing.MyButton();
+        rejectCaseButton = new swing.MyButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableUser = new javax.swing.JTable();
         logoutButton = new swing.MyButton();
         txtUsername = new swing.MyTextField();
         txtFname = new swing.MyTextField();
-        lablePass = new javax.swing.JLabel();
-        lableE = new javax.swing.JLabel();
+        lableGoal = new javax.swing.JLabel();
+        lableDesc = new javax.swing.JLabel();
         txtEmail = new swing.MyTextField();
-        lableNumber = new javax.swing.JLabel();
+        lableAdmin = new javax.swing.JLabel();
         txtPhone = new swing.MyTextField();
         txtPass = new swing.MyPassword();
-        updateUserButton = new swing.MyButton();
         clearButton = new swing.MyButton();
         toggleButton = new swing.MyButton();
+        updateGoalButton = new swing.MyButton();
 
         jLabel5.setForeground(new java.awt.Color(68, 68, 68));
         jLabel5.setText("Username");
@@ -258,17 +253,17 @@ public class OrgProfile extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(255, 255, 255));
 
-        lableUser.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        lableUser.setForeground(new java.awt.Color(68, 68, 68));
-        lableUser.setText("Username");
+        lableStatus.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lableStatus.setForeground(new java.awt.Color(68, 68, 68));
+        lableStatus.setText("Case Status");
 
-        lableFname.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        lableFname.setForeground(new java.awt.Color(68, 68, 68));
-        lableFname.setText("First Name");
+        lableCate.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lableCate.setForeground(new java.awt.Color(68, 68, 68));
+        lableCate.setText("Category");
 
-        lableLname.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        lableLname.setForeground(new java.awt.Color(68, 68, 68));
-        lableLname.setText("Last Name");
+        lableMosque.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lableMosque.setForeground(new java.awt.Color(68, 68, 68));
+        lableMosque.setText("Mosque");
 
         labelTitle.setFont(new java.awt.Font("Dialog", 1, 48)); // NOI18N
         labelTitle.setForeground(new java.awt.Color(68, 68, 68));
@@ -287,23 +282,23 @@ public class OrgProfile extends javax.swing.JPanel {
         lableEmail.setForeground(new java.awt.Color(68, 68, 68));
         lableEmail.setText("Email: csc@awqaf.gov.sa");
 
-        lableNid.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        lableNid.setForeground(new java.awt.Color(68, 68, 68));
-        lableNid.setText("National ID");
+        lableCid.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lableCid.setForeground(new java.awt.Color(68, 68, 68));
+        lableCid.setText("Case ID");
 
-        addUserButton.setBackground(new java.awt.Color(124, 228, 249));
-        addUserButton.setText("Add User");
-        addUserButton.addActionListener(new java.awt.event.ActionListener() {
+        acceptCaseButton.setBackground(new java.awt.Color(124, 228, 249));
+        acceptCaseButton.setText("Accept Case");
+        acceptCaseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addUserButtonActionPerformed(evt);
+                acceptCaseButtonActionPerformed(evt);
             }
         });
 
-        deleteUserButton.setBackground(new java.awt.Color(124, 228, 249));
-        deleteUserButton.setText("Delete User");
-        deleteUserButton.addActionListener(new java.awt.event.ActionListener() {
+        rejectCaseButton.setBackground(new java.awt.Color(124, 228, 249));
+        rejectCaseButton.setText("Reject Case");
+        rejectCaseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteUserButtonActionPerformed(evt);
+                rejectCaseButtonActionPerformed(evt);
             }
         });
 
@@ -347,25 +342,17 @@ public class OrgProfile extends javax.swing.JPanel {
             }
         });
 
-        lablePass.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        lablePass.setForeground(new java.awt.Color(68, 68, 68));
-        lablePass.setText("Password");
+        lableGoal.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lableGoal.setForeground(new java.awt.Color(68, 68, 68));
+        lableGoal.setText("Goal Amount");
 
-        lableE.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        lableE.setForeground(new java.awt.Color(68, 68, 68));
-        lableE.setText("Email");
+        lableDesc.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lableDesc.setForeground(new java.awt.Color(68, 68, 68));
+        lableDesc.setText("Description");
 
-        lableNumber.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        lableNumber.setForeground(new java.awt.Color(68, 68, 68));
-        lableNumber.setText("Phone Number");
-
-        updateUserButton.setBackground(new java.awt.Color(124, 228, 249));
-        updateUserButton.setText("Update User");
-        updateUserButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateUserButtonActionPerformed(evt);
-            }
-        });
+        lableAdmin.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lableAdmin.setForeground(new java.awt.Color(68, 68, 68));
+        lableAdmin.setText("Admin ID");
 
         clearButton.setBackground(new java.awt.Color(124, 228, 249));
         clearButton.setText("Clear All");
@@ -376,12 +363,15 @@ public class OrgProfile extends javax.swing.JPanel {
         });
 
         toggleButton.setBackground(new java.awt.Color(124, 228, 249));
-        toggleButton.setText("Show Cases");
+        toggleButton.setText("Pending Cases");
         toggleButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 toggleButtonActionPerformed(evt);
             }
         });
+
+        updateGoalButton.setBackground(new java.awt.Color(124, 228, 249));
+        updateGoalButton.setText("Update Goal");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -404,13 +394,13 @@ public class OrgProfile extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lableNid)
-                            .addComponent(lableUser)
-                            .addComponent(lableFname)
-                            .addComponent(lableLname)
-                            .addComponent(lablePass)
-                            .addComponent(lableE)
-                            .addComponent(lableNumber))
+                            .addComponent(lableCid)
+                            .addComponent(lableStatus)
+                            .addComponent(lableCate)
+                            .addComponent(lableMosque)
+                            .addComponent(lableGoal)
+                            .addComponent(lableDesc)
+                            .addComponent(lableAdmin))
                         .addGap(25, 25, 25)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(txtId, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
@@ -424,11 +414,11 @@ public class OrgProfile extends javax.swing.JPanel {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addGap(36, 36, 36))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(addUserButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(acceptCaseButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(74, 74, 74)
-                        .addComponent(deleteUserButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(rejectCaseButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(74, 74, 74)
-                        .addComponent(updateUserButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(updateGoalButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(74, 74, 74)
                         .addComponent(toggleButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(74, 74, 74)
@@ -451,130 +441,60 @@ public class OrgProfile extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lableNid)
+                            .addComponent(lableCid)
                             .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lableUser, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lableStatus, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtUsername, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lableFname, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lableCate, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(txtFname, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lableLname)
+                            .addComponent(lableMosque)
                             .addComponent(txtLname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lablePass)
+                            .addComponent(lableGoal)
                             .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lableE)
+                            .addComponent(lableDesc)
                             .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lableNumber)
+                            .addComponent(lableAdmin)
                             .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addUserButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(deleteUserButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(acceptCaseButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rejectCaseButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(updateUserButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(clearButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(toggleButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(toggleButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(updateGoalButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(77, 77, 77))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void addUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addUserButtonActionPerformed
-        if(showCases){
-            if(!getTxtId().equals("") && getTxtId().matches("[0-9]+"))
+    private void acceptCaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_acceptCaseButtonActionPerformed
+        if(!getTxtId().equals("") && getTxtId().matches("[0-9]+"))
                 acceptCase(Integer.parseInt(getTxtId()));
             else
                 JOptionPane.showMessageDialog(this, "Please Enter your Case ID!!");
-        }
-        else{
-            if(!isTextEmpty()){
-                try {
-                    String sql = "INSERT INTO users"
-                        + "(national_id, username, first_name, last_name, password, email, phone_number)"
-                        + "VALUES(?, ?, ?, ?, ?, ?, ?)";
+    }//GEN-LAST:event_acceptCaseButtonActionPerformed
 
-                    con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
-                    pst = con.prepareStatement(sql);
-
-                    pst.setString(1, getTxtId());
-                    pst.setString(2, getTxtUsername());
-                    pst.setString(3, getTxtFname());
-                    pst.setString(4, getTxtLname());
-                    pst.setString(5, getTxtPass());
-                    pst.setString(6, getTxtEmail());
-                    pst.setString(7, getTxtPhone());
-
-                    pst.executeUpdate();
-                    con.close();
-                    JOptionPane.showMessageDialog(this, "Account is Created successfully");
-                    showTableUsers();
-                }
-                catch (Exception e) {
-                    if(e.toString().contains("unique"))
-                        JOptionPane.showMessageDialog(this, "This Account already exists");
-                    else if(e.toString().contains("number"))
-                        JOptionPane.showMessageDialog(this, "Please Enter a valid Information");
-                    else
-                        JOptionPane.showMessageDialog(this, e);
-                }
-                clearAll();
-            }
-            else
-                JOptionPane.showMessageDialog(this, "Please Enter all User's Information");
-        }
-    }//GEN-LAST:event_addUserButtonActionPerformed
-
-    private void deleteUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteUserButtonActionPerformed
-        if(showCases){
-            if(!getTxtId().equals("") && getTxtId().matches("[0-9]+"))
+    private void rejectCaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rejectCaseButtonActionPerformed
+        if(!getTxtId().equals("") && getTxtId().matches("[0-9]+"))
                 rejectCase(Integer.parseInt(getTxtId()));
             else
                 JOptionPane.showMessageDialog(this, "Please Enter your Case ID!!");
-        }
-        else{
-            if(!getTxtId().equals("")){
-                try {
-                    String sql = "DELETE FROM users WHERE national_id = ?";
-                    con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
-                    pst = con.prepareStatement(sql);
-
-                    pst.setString(1, getTxtId());
-
-                    int isDone = pst.executeUpdate();
-                    con.close();
-                    if (isDone == 1)
-                        JOptionPane.showMessageDialog(this, "User was Deleted successfully");
-                    else
-                        JOptionPane.showMessageDialog(this, "No User with that National ID");
-
-                    showTableUsers();
-                }
-                catch (Exception e) {
-                    if(e.toString().contains("child"))
-                        JOptionPane.showMessageDialog(this, "This Account is active and cannot be Deleted");
-                    else
-                        JOptionPane.showMessageDialog(this, e);
-                }
-            }
-            else{
-                JOptionPane.showMessageDialog(this, "Please Enter User National ID!!");
-            }
-            clearAll();
-        }
-    }//GEN-LAST:event_deleteUserButtonActionPerformed
+    }//GEN-LAST:event_rejectCaseButtonActionPerformed
 
     private void loginbutton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginbutton2ActionPerformed
         // TODO add your handling code here:
@@ -588,56 +508,6 @@ public class OrgProfile extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtFnameActionPerformed
 
-    private void updateUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateUserButtonActionPerformed
-        if(showCases){
-            clearAll();
-            showPending = !showPending;
-            
-            updateUserButton.setText(showPending? "All Cases" : "Pending Cases");
-            
-            showTableUsers();
-        }
-        else{
-            if(!isTextEmpty()){
-                try {
-                    String sql = "UPDATE users SET "
-                        + "username = ?, first_name = ?, last_name = ?, password = ?, email = ?, phone_number = ? "
-                        + "WHERE national_id = ?";
-
-                    con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
-                    pst = con.prepareStatement(sql);
-
-                    pst.setString(1, getTxtUsername());
-                    pst.setString(2, getTxtFname());
-                    pst.setString(3, getTxtLname());
-                    pst.setString(4, getTxtPass());
-                    pst.setString(5, getTxtEmail());
-                    pst.setString(6, getTxtPhone());
-                    pst.setString(7, getTxtId());
-
-                    int isDone = pst.executeUpdate();
-                    con.close();
-                    if (isDone == 1)
-                        JOptionPane.showMessageDialog(this, "Account is Updated successfully");
-                    else
-                        JOptionPane.showMessageDialog(this, "No User with that National ID");
-                    showTableUsers();
-                }
-                catch (Exception e) {
-                    if(e.toString().contains("unique"))
-                        JOptionPane.showMessageDialog(this, "This Information is already taken");
-                    else if(e.toString().contains("number"))
-                        JOptionPane.showMessageDialog(this, "Please Enter a valid Information");
-                    else
-                        JOptionPane.showMessageDialog(this, e);
-                }
-                clearAll();
-            }
-            else
-                JOptionPane.showMessageDialog(this, "Please Enter all User's Information");
-            }
-    }//GEN-LAST:event_updateUserButtonActionPerformed
-
     private void tableUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableUserMouseClicked
         int row = tableUser.getSelectedRow();
         DefaultTableModel model = (DefaultTableModel) tableUser.getModel();
@@ -646,9 +516,9 @@ public class OrgProfile extends javax.swing.JPanel {
         setTxtUsername(model.getValueAt(row, 1).toString());
         setTxtFname(model.getValueAt(row, 2).toString());
         setTxtLname(model.getValueAt(row, 3).toString());
-        setTxtPass((showCases? "$" : "") + model.getValueAt(row, 4).toString());
+        setTxtPass("$" + model.getValueAt(row, 4).toString());
         setTxtEmail(model.getValueAt(row, 5) == null ? "" : model.getValueAt(row, 5).toString());
-        setTxtPhone(model.getValueAt(row, showCases? 7 : 6).toString());
+        setTxtPhone(model.getValueAt(row, showPending? 6 : 7).toString());
     }//GEN-LAST:event_tableUserMouseClicked
 
     private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
@@ -657,21 +527,8 @@ public class OrgProfile extends javax.swing.JPanel {
 
     private void toggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toggleButtonActionPerformed
         clearAll();
-        showCases = !showCases;
-        
-        toggleButton.setText(showCases? "Show Users" : "Show Cases");
-        txtPass.setEchoChar(showCases? (char) 0 : '*');
-        lableNid.setText(showCases? "Case ID" : "National ID");
-        lableUser.setText(showCases? "Case Status" : "Username");
-        lableFname.setText(showCases? "Category" : "First Name");
-        lableLname.setText(showCases? "Mosque" : "Last Name");
-        lablePass.setText(showCases? "Goal Amount" : "Password");
-        lableE.setText(showCases? "Description" : "Email");
-        lableNumber.setText(showCases? "User ID" : "Phone Number");
-        
-        addUserButton.setText(showCases? "Accept Case" : "Add User");
-        deleteUserButton.setText(showCases? "Reject Case" : "Delete User");
-        updateUserButton.setText(showCases? (showPending? "All Cases" : "Pending Cases") : "Update User");
+        showPending = !showPending;
+        lableAdmin.setText(showPending? "Date" : "Admin ID");
         
         showTableUsers();
     }//GEN-LAST:event_toggleButtonActionPerformed
@@ -762,24 +619,24 @@ public class OrgProfile extends javax.swing.JPanel {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private swing.MyButton addUserButton;
+    private swing.MyButton acceptCaseButton;
     private swing.MyButton clearButton;
-    private swing.MyButton deleteUserButton;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelId;
     private javax.swing.JLabel labelName;
     private javax.swing.JLabel labelTitle;
-    private javax.swing.JLabel lableE;
+    private javax.swing.JLabel lableAdmin;
+    private javax.swing.JLabel lableCate;
+    private javax.swing.JLabel lableCid;
+    private javax.swing.JLabel lableDesc;
     private javax.swing.JLabel lableEmail;
-    private javax.swing.JLabel lableFname;
-    private javax.swing.JLabel lableLname;
-    private javax.swing.JLabel lableNid;
-    private javax.swing.JLabel lableNumber;
-    private javax.swing.JLabel lablePass;
-    private javax.swing.JLabel lableUser;
+    private javax.swing.JLabel lableGoal;
+    private javax.swing.JLabel lableMosque;
+    private javax.swing.JLabel lableStatus;
     private swing.MyButton loginbutton2;
     private swing.MyButton logoutButton;
+    private swing.MyButton rejectCaseButton;
     private javax.swing.JTable tableUser;
     private swing.MyButton toggleButton;
     private swing.MyTextField txtEmail;
@@ -789,6 +646,6 @@ public class OrgProfile extends javax.swing.JPanel {
     private swing.MyPassword txtPass;
     private swing.MyTextField txtPhone;
     private swing.MyTextField txtUsername;
-    private swing.MyButton updateUserButton;
+    private swing.MyButton updateGoalButton;
     // End of variables declaration//GEN-END:variables
 }

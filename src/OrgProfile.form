@@ -61,13 +61,13 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lableNid" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lableUser" min="-2" max="-2" attributes="0"/>
-                          <Component id="lableFname" min="-2" max="-2" attributes="0"/>
-                          <Component id="lableLname" min="-2" max="-2" attributes="0"/>
-                          <Component id="lablePass" min="-2" max="-2" attributes="0"/>
-                          <Component id="lableE" min="-2" max="-2" attributes="0"/>
-                          <Component id="lableNumber" min="-2" max="-2" attributes="0"/>
+                          <Component id="lableCid" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="lableStatus" min="-2" max="-2" attributes="0"/>
+                          <Component id="lableCate" min="-2" max="-2" attributes="0"/>
+                          <Component id="lableMosque" min="-2" max="-2" attributes="0"/>
+                          <Component id="lableGoal" min="-2" max="-2" attributes="0"/>
+                          <Component id="lableDesc" min="-2" max="-2" attributes="0"/>
+                          <Component id="lableAdmin" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
@@ -84,11 +84,11 @@
                       <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="addUserButton" min="-2" max="-2" attributes="0"/>
+                      <Component id="acceptCaseButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
-                      <Component id="deleteUserButton" min="-2" max="-2" attributes="0"/>
+                      <Component id="rejectCaseButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
-                      <Component id="updateUserButton" min="-2" max="-2" attributes="0"/>
+                      <Component id="updateGoalButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
                       <Component id="toggleButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
@@ -116,37 +116,37 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lableNid" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lableCid" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="txtId" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="40" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lableUser" alignment="1" min="-2" pref="22" max="-2" attributes="0"/>
+                          <Component id="lableStatus" alignment="1" min="-2" pref="22" max="-2" attributes="0"/>
                           <Component id="txtUsername" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="40" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lableFname" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="lableCate" alignment="1" min="-2" max="-2" attributes="0"/>
                           <Component id="txtFname" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="40" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lableLname" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lableMosque" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="txtLname" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="40" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lablePass" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lableGoal" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="txtPass" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="40" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lableE" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lableDesc" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="txtEmail" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="40" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lableNumber" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lableAdmin" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="txtPhone" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="100" max="32767" attributes="0"/>
@@ -157,12 +157,12 @@
                   </Group>
               </Group>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="addUserButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="deleteUserButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="acceptCaseButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="rejectCaseButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="logoutButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="updateUserButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="clearButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="toggleButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="updateGoalButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="77" max="-2" attributes="0"/>
           </Group>
@@ -170,7 +170,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="lableUser">
+    <Component class="javax.swing.JLabel" name="lableStatus">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="18" style="1"/>
@@ -178,10 +178,10 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="44" green="44" red="44" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Username"/>
+        <Property name="text" type="java.lang.String" value="Case Status"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="lableFname">
+    <Component class="javax.swing.JLabel" name="lableCate">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="18" style="1"/>
@@ -189,10 +189,10 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="44" green="44" red="44" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="First Name"/>
+        <Property name="text" type="java.lang.String" value="Category"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="lableLname">
+    <Component class="javax.swing.JLabel" name="lableMosque">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="18" style="1"/>
@@ -200,7 +200,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="44" green="44" red="44" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Last Name"/>
+        <Property name="text" type="java.lang.String" value="Mosque"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="labelTitle">
@@ -250,7 +250,7 @@
         <Property name="text" type="java.lang.String" value="Email: csc@awqaf.gov.sa"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="lableNid">
+    <Component class="javax.swing.JLabel" name="lableCid">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="18" style="1"/>
@@ -258,31 +258,31 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="44" green="44" red="44" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="National ID"/>
+        <Property name="text" type="java.lang.String" value="Case ID"/>
       </Properties>
     </Component>
     <Component class="swing.MyTextField" name="txtId">
     </Component>
-    <Component class="swing.MyButton" name="addUserButton">
+    <Component class="swing.MyButton" name="acceptCaseButton">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="f9" green="e4" red="7c" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Add User"/>
+        <Property name="text" type="java.lang.String" value="Accept Case"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addUserButtonActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="acceptCaseButtonActionPerformed"/>
       </Events>
     </Component>
-    <Component class="swing.MyButton" name="deleteUserButton">
+    <Component class="swing.MyButton" name="rejectCaseButton">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="f9" green="e4" red="7c" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Delete User"/>
+        <Property name="text" type="java.lang.String" value="Reject Case"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deleteUserButtonActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rejectCaseButtonActionPerformed"/>
       </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
@@ -366,7 +366,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtFnameActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JLabel" name="lablePass">
+    <Component class="javax.swing.JLabel" name="lableGoal">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="18" style="1"/>
@@ -374,10 +374,10 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="44" green="44" red="44" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Password"/>
+        <Property name="text" type="java.lang.String" value="Goal Amount"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="lableE">
+    <Component class="javax.swing.JLabel" name="lableDesc">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="18" style="1"/>
@@ -385,12 +385,12 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="44" green="44" red="44" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Email"/>
+        <Property name="text" type="java.lang.String" value="Description"/>
       </Properties>
     </Component>
     <Component class="swing.MyTextField" name="txtEmail">
     </Component>
-    <Component class="javax.swing.JLabel" name="lableNumber">
+    <Component class="javax.swing.JLabel" name="lableAdmin">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="18" style="1"/>
@@ -398,23 +398,12 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="44" green="44" red="44" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Phone Number"/>
+        <Property name="text" type="java.lang.String" value="Admin ID"/>
       </Properties>
     </Component>
     <Component class="swing.MyTextField" name="txtPhone">
     </Component>
     <Component class="swing.MyPassword" name="txtPass">
-    </Component>
-    <Component class="swing.MyButton" name="updateUserButton">
-      <Properties>
-        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="f9" green="e4" red="7c" type="rgb"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Update User"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="updateUserButtonActionPerformed"/>
-      </Events>
     </Component>
     <Component class="swing.MyButton" name="clearButton">
       <Properties>
@@ -432,11 +421,19 @@
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="f9" green="e4" red="7c" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Show Cases"/>
+        <Property name="text" type="java.lang.String" value="Pending Cases"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="toggleButtonActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="swing.MyButton" name="updateGoalButton">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="f9" green="e4" red="7c" type="rgb"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Update Goal"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>
