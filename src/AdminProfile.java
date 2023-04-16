@@ -26,6 +26,7 @@ public class AdminProfile extends javax.swing.JPanel {
     
     private int admin_id;
     private boolean showCases = false;
+    private boolean showPending = false;
     
     public AdminProfile(int admin_id) {
         this.admin_id = admin_id;
@@ -162,12 +163,25 @@ public class AdminProfile extends javax.swing.JPanel {
     private void showTableUsers(){
         try {
             if(showCases){
-                String sql = "SELECT case_id, case_status, category_name, mosque_name, goal_amount, case_desc, case_date, user_id "
+                if(showPending){
+                    String sql = "SELECT case_id, case_status, category_name, mosque_name, goal_amount, case_desc, case_date, user_id "
+                        + "FROM case, category, mosque "
+                        + "WHERE case_status = ? AND case.category_id = category.category_id AND case.mosque_id = mosque.mosque_id "
+                        + "ORDER BY 1 DESC";
+                
+                    con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
+                    pst = con.prepareStatement(sql);
+
+                    pst.setString(1, "pending");
+                }
+                else{
+                    String sql = "SELECT case_id, case_status, category_name, mosque_name, goal_amount, case_desc, case_date, user_id "
                         + "FROM case, category, mosque "
                         + "WHERE case.category_id = category.category_id AND case.mosque_id = mosque.mosque_id "
                         + "ORDER BY 1 DESC";
-                con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
-                pst = con.prepareStatement(sql);
+                    con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
+                    pst = con.prepareStatement(sql);
+                }
             }
             else{
                 String sql = "SELECT * FROM users";
@@ -551,43 +565,53 @@ public class AdminProfile extends javax.swing.JPanel {
     }//GEN-LAST:event_txtFnameActionPerformed
 
     private void updateUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateUserButtonActionPerformed
-        if(!isTextEmpty()){
-            try {
-                String sql = "UPDATE users SET "
-                    + "username = ?, first_name = ?, last_name = ?, password = ?, email = ?, phone_number = ? "
-                    + "WHERE national_id = ?";
-                
-                con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
-                pst = con.prepareStatement(sql);
-                
-                pst.setString(1, getTxtUsername());
-                pst.setString(2, getTxtFname());
-                pst.setString(3, getTxtLname());
-                pst.setString(4, getTxtPass());
-                pst.setString(5, getTxtEmail());
-                pst.setString(6, getTxtPhone());
-                pst.setString(7, getTxtId());
-                
-                int isDone = pst.executeUpdate();
-                con.close();
-                if (isDone == 1)
-                    JOptionPane.showMessageDialog(this, "Account is Updated successfully");
-                else
-                    JOptionPane.showMessageDialog(this, "No User with that National ID");
-                showTableUsers();
-            }
-            catch (Exception e) {
-                if(e.toString().contains("unique"))
-                    JOptionPane.showMessageDialog(this, "This Information is already taken");
-                else if(e.toString().contains("number"))
-                    JOptionPane.showMessageDialog(this, "Please Enter a valid Information");
-                else
-                    JOptionPane.showMessageDialog(this, e);
-            }
+        if(showCases){
             clearAll();
+            showPending = !showPending;
+            
+            updateUserButton.setText(showPending? "All Cases" : "Pending Cases");
+            
+            showTableUsers();
         }
-        else
-            JOptionPane.showMessageDialog(this, "Please Enter all User's Information");
+        else{
+            if(!isTextEmpty()){
+                try {
+                    String sql = "UPDATE users SET "
+                        + "username = ?, first_name = ?, last_name = ?, password = ?, email = ?, phone_number = ? "
+                        + "WHERE national_id = ?";
+
+                    con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
+                    pst = con.prepareStatement(sql);
+
+                    pst.setString(1, getTxtUsername());
+                    pst.setString(2, getTxtFname());
+                    pst.setString(3, getTxtLname());
+                    pst.setString(4, getTxtPass());
+                    pst.setString(5, getTxtEmail());
+                    pst.setString(6, getTxtPhone());
+                    pst.setString(7, getTxtId());
+
+                    int isDone = pst.executeUpdate();
+                    con.close();
+                    if (isDone == 1)
+                        JOptionPane.showMessageDialog(this, "Account is Updated successfully");
+                    else
+                        JOptionPane.showMessageDialog(this, "No User with that National ID");
+                    showTableUsers();
+                }
+                catch (Exception e) {
+                    if(e.toString().contains("unique"))
+                        JOptionPane.showMessageDialog(this, "This Information is already taken");
+                    else if(e.toString().contains("number"))
+                        JOptionPane.showMessageDialog(this, "Please Enter a valid Information");
+                    else
+                        JOptionPane.showMessageDialog(this, e);
+                }
+                clearAll();
+            }
+            else
+                JOptionPane.showMessageDialog(this, "Please Enter all User's Information");
+            }
     }//GEN-LAST:event_updateUserButtonActionPerformed
 
     private void tableUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableUserMouseClicked
@@ -610,6 +634,7 @@ public class AdminProfile extends javax.swing.JPanel {
     private void toggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toggleButtonActionPerformed
         clearAll();
         showCases = !showCases;
+        
         toggleButton.setText(showCases? "Show Users" : "Show Cases");
         txtPass.setEchoChar(showCases? (char) 0 : '*');
         lableNid.setText(showCases? "Case ID" : "National ID");
@@ -619,6 +644,11 @@ public class AdminProfile extends javax.swing.JPanel {
         lablePass.setText(showCases? "Goal Amount" : "Password");
         lableE.setText(showCases? "Description" : "Email");
         lableNumber.setText(showCases? "User ID" : "Phone Number");
+        
+        addUserButton.setText(showCases? "Accept Case" : "Add User");
+        deleteUserButton.setText(showCases? "Reject Case" : "Delete User");
+        updateUserButton.setText(showCases? (showPending? "All Cases" : "Pending Cases") : "Update User");
+        
         showTableUsers();
     }//GEN-LAST:event_toggleButtonActionPerformed
 
