@@ -485,40 +485,48 @@ public class AdminProfile extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addUserButtonActionPerformed
-        if(!isTextEmpty()){
-            try {
-                String sql = "INSERT INTO users"
-                    + "(national_id, username, first_name, last_name, password, email, phone_number)"
-                    + "VALUES(?, ?, ?, ?, ?, ?, ?)";
-                
-                con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
-                pst = con.prepareStatement(sql);
-                
-                pst.setString(1, getTxtId());
-                pst.setString(2, getTxtUsername());
-                pst.setString(3, getTxtFname());
-                pst.setString(4, getTxtLname());
-                pst.setString(5, getTxtPass());
-                pst.setString(6, getTxtEmail());
-                pst.setString(7, getTxtPhone());
-
-                pst.executeUpdate();
-                con.close();
-                JOptionPane.showMessageDialog(this, "Account is Created successfully");
-                showTableUsers();
-            }
-            catch (Exception e) {
-                if(e.toString().contains("unique"))
-                    JOptionPane.showMessageDialog(this, "This Account already exists");
-                else if(e.toString().contains("number"))
-                    JOptionPane.showMessageDialog(this, "Please Enter a valid Information");
-                else
-                    JOptionPane.showMessageDialog(this, e);
-            }
-            clearAll();
+        if(showCases){
+            if(!getTxtId().equals(""))
+                acceptCase(Integer.parseInt(getTxtId()));
+            else
+                JOptionPane.showMessageDialog(this, "Please Enter your Case ID!!");
         }
-        else
-            JOptionPane.showMessageDialog(this, "Please Enter all User's Information");
+        else{
+            if(!isTextEmpty()){
+                try {
+                    String sql = "INSERT INTO users"
+                        + "(national_id, username, first_name, last_name, password, email, phone_number)"
+                        + "VALUES(?, ?, ?, ?, ?, ?, ?)";
+
+                    con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
+                    pst = con.prepareStatement(sql);
+
+                    pst.setString(1, getTxtId());
+                    pst.setString(2, getTxtUsername());
+                    pst.setString(3, getTxtFname());
+                    pst.setString(4, getTxtLname());
+                    pst.setString(5, getTxtPass());
+                    pst.setString(6, getTxtEmail());
+                    pst.setString(7, getTxtPhone());
+
+                    pst.executeUpdate();
+                    con.close();
+                    JOptionPane.showMessageDialog(this, "Account is Created successfully");
+                    showTableUsers();
+                }
+                catch (Exception e) {
+                    if(e.toString().contains("unique"))
+                        JOptionPane.showMessageDialog(this, "This Account already exists");
+                    else if(e.toString().contains("number"))
+                        JOptionPane.showMessageDialog(this, "Please Enter a valid Information");
+                    else
+                        JOptionPane.showMessageDialog(this, e);
+                }
+                clearAll();
+            }
+            else
+                JOptionPane.showMessageDialog(this, "Please Enter all User's Information");
+        }
     }//GEN-LAST:event_addUserButtonActionPerformed
 
     private void deleteUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteUserButtonActionPerformed
@@ -651,7 +659,58 @@ public class AdminProfile extends javax.swing.JPanel {
         
         showTableUsers();
     }//GEN-LAST:event_toggleButtonActionPerformed
+    
+    private void acceptCase(int caseId){
+        try {
+            String sql = "SELECT * FROM case WHERE case_id = ? AND case_status = ?";
+            
+            con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
+            pst = con.prepareStatement(sql);
+            
+            pst.setInt(1, caseId);
+            pst.setString(2, "pending");
 
+            rs = pst.executeQuery();
+            if(rs.next()){
+                String input = JOptionPane.showInputDialog(this, "Enter the Goal Amount", "Accepting Case with ID " + caseId, JOptionPane.INFORMATION_MESSAGE);
+        
+                if(input != null){
+                    if(input.matches("[0-9]+")){
+                        double goalAmount = Double.parseDouble(input);
+                        
+                        sql = "UPDATE case SET "
+                                + "case_status = ?, goal_amount = ? WHERE case_id = ?";
+                        
+                        pst = con.prepareStatement(sql);
+                        
+                        pst.setString(1, "active");
+                        pst.setDouble(2, goalAmount);
+                        pst.setInt(3, caseId);
+                        
+                        int isDone = pst.executeUpdate();
+                        if (isDone == 1)
+                            JOptionPane.showMessageDialog(this, "Case with ID " + caseId + " has been Accepted\nThe Goal amount is $" + goalAmount);
+                        else
+                            JOptionPane.showMessageDialog(this, "Something went wrong!!");
+                        showTableUsers();
+                    }
+                    else
+                        JOptionPane.showMessageDialog(this, "Please Enter a valid number!!");
+                }
+                else{
+                    clearAll();
+                }
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "You can ONLY accept Pending cases!!");
+                clearAll();
+            }
+            con.close();
+        } 
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private swing.MyButton addUserButton;

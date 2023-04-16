@@ -392,14 +392,14 @@ public class UserProfile extends javax.swing.JPanel {
 
     private void createCaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createCaseButtonActionPerformed
         if (getTxtId().equals("")) {
-            String[] statuses = {"pending", "active", "cancelled", "completed"};
-            int randomNumber = (int) (Math.random() * statuses.length);
-            String status = statuses[randomNumber];
-            double amount = (int) (Math.random() * (1000001 - 200) + 200);
-
-            if (status.equals("pending") || status.equals("cancelled")) {
-                amount = 0;
-            }
+//            String[] statuses = {"pending", "active", "cancelled", "completed"};
+//            int randomNumber = (int) (Math.random() * statuses.length);
+//            String status = statuses[randomNumber];
+//            double amount = (int) (Math.random() * (1000001 - 200) + 200);
+//
+//            if (status.equals("pending") || status.equals("cancelled")) {
+//                amount = 0;
+//            }
 
             try {
                 String getCategoryId = "SELECT category_id FROM category WHERE category_name = ?";
@@ -413,8 +413,10 @@ public class UserProfile extends javax.swing.JPanel {
                 pst = con.prepareStatement(sql);
 
                 pst.setString(1, getTxtDesc());
-                pst.setString(2, status);
-                pst.setDouble(3, amount);
+//                pst.setString(2, status);
+//                pst.setDouble(3, amount);
+                pst.setString(2, "pending");
+                pst.setDouble(3, 0);
                 pst.setString(4, getTxtCategory());
                 pst.setString(5, getTxtMosque());
                 pst.setInt(6, getNational_id());
