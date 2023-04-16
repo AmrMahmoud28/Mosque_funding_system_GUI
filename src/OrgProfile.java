@@ -573,8 +573,22 @@ public class OrgProfile extends javax.swing.JPanel {
                         pst.setInt(3, caseId);
                         
                         int isDone = pst.executeUpdate();
-                        if (isDone == 1)
-                            JOptionPane.showMessageDialog(this, "Case with ID " + caseId + " is Accepted\nThe Goal amount is $" + goalAmount);
+                        if (isDone == 1){
+                            sql = "INSERT INTO works_on "
+                                    + "(caseno, orgno, adminno) "
+                                    + "VALUES(?, ?, (SELECT admin_id FROM (SELECT admin_id FROM admin ORDER BY dbms_random.value) WHERE rownum = 1))";
+                            
+                            pst = con.prepareStatement(sql);
+                            
+                            pst.setInt(1, caseId);
+                            pst.setInt(2, getOrg_id());
+                            
+                            isDone = pst.executeUpdate();
+                            if(isDone == 1)
+                                JOptionPane.showMessageDialog(this, "Case with ID " + caseId + " is Accepted\nThe Goal amount is $" + goalAmount);
+                            else
+                                JOptionPane.showMessageDialog(this, "Something went wrong!!");
+                        }
                         else
                             JOptionPane.showMessageDialog(this, "Something went wrong!!");
                         clearAll();
