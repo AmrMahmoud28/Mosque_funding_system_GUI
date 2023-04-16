@@ -24,6 +24,7 @@ public class Main extends javax.swing.JFrame {
     Signup signup = new Signup();
     UserProfile userProfile;
     AdminProfile adminProfile;
+    OrgProfile orgProfile;
 
     public Main() {
         initComponents();
@@ -54,8 +55,8 @@ public class Main extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent ae) {
                 if (!isTextEmpty(login)) {
                     if (login.getTxtUser().contains("admin")) {
-                        String[] result = startLogin(true);
-                            if (result != null) {
+                        String[] result = startLogin(0);
+                        if (result != null) {
                             adminProfile = new AdminProfile(Integer.parseInt(result[3]));
                             
                             adminProfile.setLableName("Name: " + result[0]);
@@ -74,8 +75,32 @@ public class Main extends javax.swing.JFrame {
                                 }
                             });
                         }
-                    } else {
-                        String[] result = startLogin(false);
+                    }
+                    else if(login.getTxtUser().contains("gov")){
+                        String[] result = startLogin(1);
+                        if (result != null) {
+                            orgProfile = new OrgProfile(Integer.parseInt(result[1]));
+                            
+                            orgProfile.setLabelTitle(result[0].split(" ")[result[0].split(" ").length - 1] + " Organization");
+                            orgProfile.setLableName("Name: " + result[0]);
+                            orgProfile.setLableId("ID: " + result[1]);
+                            orgProfile.setLableEmail("Email: " + result[2]);
+                            
+                            slide.init(orgProfile);
+                            slide.show(slide.getComponentCount() - 1);
+
+                            orgProfile.addEventLogout(new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent ae) {
+                                    slide.show(0);
+                                    login.login();
+                                    clearAll();
+                                }
+                            });
+                        }
+                    }
+                    else {
+                        String[] result = startLogin(2);
                         if (result != null) {
                             userProfile = new UserProfile(Integer.parseInt(result[3]));
                             
@@ -162,12 +187,16 @@ public class Main extends javax.swing.JFrame {
                 || signup.getTxtPhone().equals("");
     }
 
-    private String[] startLogin(boolean isAdmin) {
+    private String[] startLogin(int userType) {
         try {
             String sql;
-            if (isAdmin) {
+            if (userType == 0) {
                 sql = "SELECT * FROM admin WHERE admin_email = ? AND password = ?";
-            } else {
+            }
+            else if(userType == 1){
+                sql = "SELECT * FROM organization WHERE org_email = ? AND org_id = ?";
+            }
+            else {
                 sql = "SELECT * FROM users WHERE username = ? AND password = ?";
             }
 
@@ -180,12 +209,19 @@ public class Main extends javax.swing.JFrame {
             rs = pst.executeQuery();
             if (rs.next()) {
                 String[] result = new String[4];
-                if (isAdmin) {
+                if (userType == 0) {
                     result[0] = (rs.getString(2));
                     result[1] = rs.getString(1);
                     result[2] = rs.getString(3);
                     result[3] = rs.getString(1);
-                } else {
+                }
+                else if(userType == 1){
+                    result[0] = (rs.getString(2));
+                    result[1] = rs.getString(1);
+                    result[2] = rs.getString(3);
+                    result[3] = rs.getString(1);
+                }
+                else {
                     result[0] = (rs.getString(3) + " " + rs.getString(4));
                     result[1] = rs.getString(2);
                     result[2] = rs.getString(6);
