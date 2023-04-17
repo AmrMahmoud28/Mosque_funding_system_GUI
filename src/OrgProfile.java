@@ -550,9 +550,9 @@ public class OrgProfile extends javax.swing.JPanel {
 
     private void updateGoalButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateGoalButtonActionPerformed
         if(!getTxtId().equals("") && getTxtId().matches("[0-9]+"))
-                updateCase(Integer.parseInt(getTxtId()));
-            else
-                JOptionPane.showMessageDialog(this, "Please Enter your Case ID!!");
+            updateCase(Integer.parseInt(getTxtId()));
+        else
+            JOptionPane.showMessageDialog(this, "Please Enter your Case ID!!");
     }//GEN-LAST:event_updateGoalButtonActionPerformed
     
     private void acceptCase(int caseId){

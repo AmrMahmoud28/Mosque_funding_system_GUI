@@ -209,6 +209,7 @@ public class UserProfile extends javax.swing.JPanel {
         tableCase = new javax.swing.JTable();
         logoutButton = new swing.MyButton();
         toggleButton = new swing.MyButton();
+        donateButton = new swing.MyButton();
 
         jLabel5.setForeground(new java.awt.Color(68, 68, 68));
         jLabel5.setText("Username");
@@ -314,6 +315,14 @@ public class UserProfile extends javax.swing.JPanel {
             }
         });
 
+        donateButton.setBackground(new java.awt.Color(124, 228, 249));
+        donateButton.setText("Donate");
+        donateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                donateButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -337,6 +346,8 @@ public class UserProfile extends javax.swing.JPanel {
                         .addComponent(createCaseButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(74, 74, 74)
                         .addComponent(deleteCaseButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(74, 74, 74)
+                        .addComponent(donateButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(74, 74, 74)
                         .addComponent(toggleButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(74, 74, 74)
@@ -395,7 +406,8 @@ public class UserProfile extends javax.swing.JPanel {
                     .addComponent(createCaseButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(deleteCaseButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(toggleButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(toggleButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(donateButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(77, 77, 77))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -496,10 +508,71 @@ public class UserProfile extends javax.swing.JPanel {
         showTableCases();
     }//GEN-LAST:event_toggleButtonActionPerformed
 
+    private void donateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_donateButtonActionPerformed
+        if(!getTxtId().equals("") && getTxtId().matches("[0-9]+"))
+            donateCase(Integer.parseInt(getTxtId()));
+        else
+            JOptionPane.showMessageDialog(this, "Please Enter your Case ID!!");
+    }//GEN-LAST:event_donateButtonActionPerformed
+
+    private void donateCase(int caseId){
+        try {
+            String sql = "SELECT * FROM case WHERE case_id = ? AND case_status = ?";
+            
+            con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
+            pst = con.prepareStatement(sql);
+            
+            pst.setInt(1, caseId);
+            pst.setString(2, "active");
+
+            rs = pst.executeQuery();
+            if(rs.next()){
+                String input = JOptionPane.showInputDialog(this, "Enter your Donation Amount", "Donating Case with ID " + caseId, JOptionPane.INFORMATION_MESSAGE);
+        
+                if(input != null){
+                    if(input.matches("[0-9]+")){
+                        double donationAmount = Double.parseDouble(input);
+                        
+                        sql = "INSERT INTO donation "
+                                + "(donation_id, donation_amount, user_id, case_id) "
+                                + "VALUES(donation_seq.nextval, ?, ?, ?)";
+                        
+                        pst = con.prepareStatement(sql);
+                        
+                        pst.setDouble(1, donationAmount);
+                        pst.setInt(2, getNational_id());
+                        pst.setInt(3, caseId);
+                        
+                        int isDone = pst.executeUpdate();
+                        if (isDone == 1)
+                            JOptionPane.showMessageDialog(this, "You have successfully donated $" + donationAmount + "\nto Case with ID " + caseId);
+                        else
+                            JOptionPane.showMessageDialog(this, "Something went wrong!!");
+                        setTxtId("");
+                        showTableCases();
+                    }
+                    else
+                        JOptionPane.showMessageDialog(this, "Please Enter a valid number!!");
+                }
+                else{
+                    setTxtId("");
+                }
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "You can ONLY donate to Active cases!!");
+                setTxtId("");
+            }
+            con.close();
+        } 
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private swing.MyButton createCaseButton;
     private swing.MyButton deleteCaseButton;
+    private swing.MyButton donateButton;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
