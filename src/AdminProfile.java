@@ -164,7 +164,9 @@ public class AdminProfile extends javax.swing.JPanel {
         try {
             if(showCases){
                 if(showMyCases){
-                    String sql = "SELECT case_id, case_status, category_name, mosque_name, goal_amount, case_desc, case_date, orgno, user_id "
+                    String sql = "SELECT case_id, case_status, category_name, mosque_name, goal_amount, "
+                        + "(SELECT SUM(donation_amount) FROM donation WHERE case_id = ?) AS Raise, "
+                        + "case_desc, case_date, orgno, user_id "
                         + "FROM case, category, mosque, works_on "
                         + "WHERE adminno = ? AND case_id = caseno AND case.category_id = category.category_id AND case.mosque_id = mosque.mosque_id "
                         + "ORDER BY CASE "
@@ -180,7 +182,9 @@ public class AdminProfile extends javax.swing.JPanel {
                     pst.setInt(1, getAdmin_id());
                 }
                 else{
-                    String sql = "SELECT case_id, case_status, category_name, mosque_name, goal_amount, case_desc, case_date, user_id "
+                    String sql = "SELECT case_id, case_status, category_name, mosque_name, goal_amount, "
+                        + "(SELECT SUM(donation_amount) FROM donation WHERE case_id = ?) AS Raise, "
+                        + "case_desc, case_date, user_id "
                         + "FROM case, category, mosque "
                         + "WHERE case.category_id = category.category_id AND case.mosque_id = mosque.mosque_id "
                         + "ORDER BY CASE "

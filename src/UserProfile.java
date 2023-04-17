@@ -105,9 +105,12 @@ public class UserProfile extends javax.swing.JPanel {
     private void showTableCases() {
         try {
             if(showMyCases){
-                String sql = "SELECT case_id, case_status, category_name, mosque_name, goal_amount, case_desc, case_date "
-                        + "FROM case, category, mosque "
-                        + "WHERE user_id = ? AND case.category_id = category.category_id AND case.mosque_id = mosque.mosque_id "
+                String sql = "SELECT case.case_id, case_status, category_name, mosque_name, goal_amount, "
+                        + "NVL(SUM(donation_amount), 0) AS Raise, "
+                        + "case_desc, case_date "
+                        + "FROM case, donation, category, mosque "
+                        + "WHERE case.user_id = ? AND case.category_id = category.category_id AND case.case_id = donation.case_id(+) AND case.mosque_id = mosque.mosque_id "
+                        + "GROUP BY case.case_id, case_status, category_name, mosque_name, goal_amount, case_desc, case_date "
                         + "ORDER BY CASE "
                             + "WHEN case_status = 'active' THEN 1 "
                             + "WHEN case_status = 'pending' THEN 2 "
@@ -121,9 +124,12 @@ public class UserProfile extends javax.swing.JPanel {
                 pst.setInt(1, getNational_id());
             }
             else{
-                String sql = "SELECT case_id, case_status, category_name, mosque_name, goal_amount, case_desc, case_date "
-                        + "FROM case, category, mosque "
-                        + "WHERE case_status = ? AND case.category_id = category.category_id AND case.mosque_id = mosque.mosque_id "
+                String sql = "SELECT case.case_id, case_status, category_name, mosque_name, goal_amount, "
+                        + "NVL(SUM(donation_amount), 0) AS Raise, "
+                        + "case_desc, case_date "
+                        + "FROM case, donation, category, mosque "
+                        + "WHERE case_status = ? AND case.category_id = category.category_id AND case.case_id = donation.case_id(+) AND case.mosque_id = mosque.mosque_id "
+                        + "GROUP BY case.case_id, case_status, category_name, mosque_name, goal_amount, case_desc, case_date "
                         + "ORDER BY CASE "
                             + "WHEN case_status = 'active' THEN 1 "
                             + "WHEN case_status = 'pending' THEN 2 "
@@ -517,13 +523,16 @@ public class UserProfile extends javax.swing.JPanel {
 
     private void donateCase(int caseId){
         try {
-            String sql = "SELECT * FROM case WHERE case_id = ? AND case_status = ?";
+            String sql = "SELECT case_id, goal_amount, "
+                    + "(SELECT SUM(donation_amount) FROM donation WHERE case_id = ?) AS Raise "
+                    + "FROM case WHERE case_id = ? AND case_status = ?";
             
             con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
             pst = con.prepareStatement(sql);
             
             pst.setInt(1, caseId);
-            pst.setString(2, "active");
+            pst.setInt(2, caseId);
+            pst.setString(3, "active");
 
             rs = pst.executeQuery();
             if(rs.next()){
@@ -544,8 +553,24 @@ public class UserProfile extends javax.swing.JPanel {
                         pst.setInt(3, caseId);
                         
                         int isDone = pst.executeUpdate();
-                        if (isDone == 1)
+                        if (isDone == 1){
                             JOptionPane.showMessageDialog(this, "You have successfully donated $" + donationAmount + "\nto Case with ID " + caseId);
+                            
+                            int goalAmount = rs.getInt(2);
+                            int raise = rs.getInt(3);
+                            
+                            if((raise + donationAmount) >= goalAmount){
+                                sql = "UPDATE case SET "
+                                        + "case_status = ? WHERE case_id = ?";
+                                
+                                pst = con.prepareStatement(sql);
+                        
+                                pst.setString(1, "completed");
+                                pst.setInt(2, caseId);
+                                
+                                pst.executeUpdate();
+                            }
+                        }
                         else
                             JOptionPane.showMessageDialog(this, "Something went wrong!!");
                         setTxtId("");

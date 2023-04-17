@@ -187,7 +187,9 @@ public class OrgProfile extends javax.swing.JPanel {
                 pst.setString(1, "pending");
             }
             else{
-                String sql = "SELECT case_id, case_status, category_name, mosque_name, goal_amount, case_desc, case_date, adminno "
+                String sql = "SELECT case_id, case_status, category_name, mosque_name, goal_amount, "
+                    + "(SELECT SUM(donation_amount) FROM donation WHERE case_id = ?) AS Raise, "
+                    + "case_desc, case_date, adminno "
                     + "FROM case, category, mosque, works_on "
                     + "WHERE orgno = ? AND case_id = caseno AND case.category_id = category.category_id AND case.mosque_id = mosque.mosque_id "
                     + "ORDER BY CASE "
