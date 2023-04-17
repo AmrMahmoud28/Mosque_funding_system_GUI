@@ -174,7 +174,12 @@ public class OrgProfile extends javax.swing.JPanel {
                 String sql = "SELECT case_id, case_status, category_name, mosque_name, goal_amount, case_desc, case_date "
                     + "FROM case, category, mosque "
                     + "WHERE case_status = ? AND case.category_id = category.category_id AND case.mosque_id = mosque.mosque_id "
-                    + "ORDER BY 1 DESC";
+                    + "ORDER BY CASE "
+                        + "WHEN case_status = 'active' THEN 1 "
+                        + "WHEN case_status = 'pending' THEN 2 "
+                        + "WHEN case_status = 'completed' THEN 3 "
+                        + "ELSE 4 "
+                    + "END, case_id DESC";
 
                 con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
                 pst = con.prepareStatement(sql);
@@ -185,7 +190,12 @@ public class OrgProfile extends javax.swing.JPanel {
                 String sql = "SELECT case_id, case_status, category_name, mosque_name, goal_amount, case_desc, case_date, adminno "
                     + "FROM case, category, mosque, works_on "
                     + "WHERE orgno = ? AND case_id = caseno AND case.category_id = category.category_id AND case.mosque_id = mosque.mosque_id "
-                    + "ORDER BY 1 DESC";
+                    + "ORDER BY CASE "
+                        + "WHEN case_status = 'active' THEN 1 "
+                        + "WHEN case_status = 'pending' THEN 2 "
+                        + "WHEN case_status = 'completed' THEN 3 "
+                        + "ELSE 4 "
+                    + "END, case_id DESC";
                 con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
                 pst = con.prepareStatement(sql);
                 

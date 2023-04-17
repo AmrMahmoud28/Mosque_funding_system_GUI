@@ -26,7 +26,7 @@ public class AdminProfile extends javax.swing.JPanel {
     
     private int admin_id;
     private boolean showCases = false;
-    private boolean showPending = false;
+    private boolean showMyCases = false;
     
     public AdminProfile(int admin_id) {
         this.admin_id = admin_id;
@@ -163,22 +163,32 @@ public class AdminProfile extends javax.swing.JPanel {
     private void showTableUsers(){
         try {
             if(showCases){
-                if(showPending){
-                    String sql = "SELECT case_id, case_status, category_name, mosque_name, goal_amount, case_desc, case_date, user_id "
-                        + "FROM case, category, mosque "
-                        + "WHERE case_status = ? AND case.category_id = category.category_id AND case.mosque_id = mosque.mosque_id "
-                        + "ORDER BY 1 DESC";
+                if(showMyCases){
+                    String sql = "SELECT case_id, case_status, category_name, mosque_name, goal_amount, case_desc, case_date, orgno, user_id "
+                        + "FROM case, category, mosque, works_on "
+                        + "WHERE adminno = ? AND case_id = caseno AND case.category_id = category.category_id AND case.mosque_id = mosque.mosque_id "
+                        + "ORDER BY CASE "
+                            + "WHEN case_status = 'active' THEN 1 "
+                            + "WHEN case_status = 'pending' THEN 2 "
+                            + "WHEN case_status = 'completed' THEN 3 "
+                            + "ELSE 4 "
+                        + "END, case_id DESC";
                 
                     con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
                     pst = con.prepareStatement(sql);
 
-                    pst.setString(1, "pending");
+                    pst.setInt(1, getAdmin_id());
                 }
                 else{
                     String sql = "SELECT case_id, case_status, category_name, mosque_name, goal_amount, case_desc, case_date, user_id "
                         + "FROM case, category, mosque "
                         + "WHERE case.category_id = category.category_id AND case.mosque_id = mosque.mosque_id "
-                        + "ORDER BY 1 DESC";
+                        + "ORDER BY CASE "
+                            + "WHEN case_status = 'active' THEN 1 "
+                            + "WHEN case_status = 'pending' THEN 2 "
+                            + "WHEN case_status = 'completed' THEN 3 "
+                            + "ELSE 4 "
+                        + "END, case_id DESC";
                     con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
                     pst = con.prepareStatement(sql);
                 }
@@ -583,9 +593,10 @@ public class AdminProfile extends javax.swing.JPanel {
     private void updateUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateUserButtonActionPerformed
         if(showCases){
             clearAll();
-            showPending = !showPending;
+            showMyCases = !showMyCases;
             
-            updateUserButton.setText(showPending? "All Cases" : "Pending Cases");
+            updateUserButton.setText(showMyCases? "All Cases" : "My Cases");
+            lableNumber.setText(showMyCases? "Org // User ID" : "User ID");
             
             showTableUsers();
         }
@@ -641,6 +652,9 @@ public class AdminProfile extends javax.swing.JPanel {
         setTxtPass((showCases? "$" : "") + model.getValueAt(row, 4).toString());
         setTxtEmail(model.getValueAt(row, 5) == null ? "" : model.getValueAt(row, 5).toString());
         setTxtPhone(model.getValueAt(row, showCases? 7 : 6).toString());
+        
+        if(showMyCases && showCases)
+            setTxtPhone(getTxtPhone() + " // " + model.getValueAt(row, 8).toString());
     }//GEN-LAST:event_tableUserMouseClicked
 
     private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
@@ -659,11 +673,11 @@ public class AdminProfile extends javax.swing.JPanel {
         lableLname.setText(showCases? "Mosque" : "Last Name");
         lablePass.setText(showCases? "Goal Amount" : "Password");
         lableE.setText(showCases? "Description" : "Email");
-        lableNumber.setText(showCases? "User ID" : "Phone Number");
+        lableNumber.setText(showCases? (showMyCases? "Org // User ID" : "User ID") : "Phone Number");
         
         addUserButton.setText(showCases? "Accept Case" : "Add User");
         deleteUserButton.setText(showCases? "Reject Case" : "Delete User");
-        updateUserButton.setText(showCases? (showPending? "All Cases" : "Pending Cases") : "Update User");
+        updateUserButton.setText(showCases? (showMyCases? "All Cases" : "My Cases") : "Update User");
         
         showTableUsers();
     }//GEN-LAST:event_toggleButtonActionPerformed
