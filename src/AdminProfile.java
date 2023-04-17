@@ -164,17 +164,18 @@ public class AdminProfile extends javax.swing.JPanel {
         try {
             if(showCases){
                 if(showMyCases){
-                    String sql = "SELECT case_id, case_status, category_name, mosque_name, goal_amount, "
-                        + "(SELECT SUM(donation_amount) FROM donation WHERE case_id = ?) AS Raise, "
-                        + "case_desc, case_date, orgno, user_id "
-                        + "FROM case, category, mosque, works_on "
-                        + "WHERE adminno = ? AND case_id = caseno AND case.category_id = category.category_id AND case.mosque_id = mosque.mosque_id "
+                    String sql = "SELECT case.case_id, case_status, category_name, mosque_name, goal_amount, "
+                        + "NVL(SUM(donation_amount), 0) AS Raise, "
+                        + "case_desc, case_date, orgno, case.user_id "
+                        + "FROM case, donation, category, mosque, works_on "
+                        + "WHERE adminno = ? AND case.case_id = caseno AND case.category_id = category.category_id AND case.case_id = donation.case_id(+) AND case.mosque_id = mosque.mosque_id "
+                        + "GROUP BY case.case_id, case_status, category_name, mosque_name, goal_amount, case_desc, case_date, orgno, case.user_id "
                         + "ORDER BY CASE "
                             + "WHEN case_status = 'active' THEN 1 "
                             + "WHEN case_status = 'pending' THEN 2 "
                             + "WHEN case_status = 'completed' THEN 3 "
                             + "ELSE 4 "
-                        + "END, case_id DESC";
+                        + "END, case.case_id DESC";
                 
                     con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
                     pst = con.prepareStatement(sql);
@@ -182,17 +183,18 @@ public class AdminProfile extends javax.swing.JPanel {
                     pst.setInt(1, getAdmin_id());
                 }
                 else{
-                    String sql = "SELECT case_id, case_status, category_name, mosque_name, goal_amount, "
-                        + "(SELECT SUM(donation_amount) FROM donation WHERE case_id = ?) AS Raise, "
-                        + "case_desc, case_date, user_id "
-                        + "FROM case, category, mosque "
-                        + "WHERE case.category_id = category.category_id AND case.mosque_id = mosque.mosque_id "
+                    String sql = "SELECT case.case_id, case_status, category_name, mosque_name, goal_amount, "
+                        + "NVL(SUM(donation_amount), 0) AS Raise, "
+                        + "case_desc, case_date, case.user_id "
+                        + "FROM case, donation, category, mosque "
+                        + "WHERE case.category_id = category.category_id AND case.case_id = donation.case_id(+) AND case.mosque_id = mosque.mosque_id "
+                        + "GROUP BY case.case_id, case_status, category_name, mosque_name, goal_amount, case_desc, case_date, case.user_id "
                         + "ORDER BY CASE "
                             + "WHEN case_status = 'active' THEN 1 "
                             + "WHEN case_status = 'pending' THEN 2 "
                             + "WHEN case_status = 'completed' THEN 3 "
                             + "ELSE 4 "
-                        + "END, case_id DESC";
+                        + "END, case.case_id DESC";
                     con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
                     pst = con.prepareStatement(sql);
                 }
@@ -654,11 +656,15 @@ public class AdminProfile extends javax.swing.JPanel {
         setTxtFname(model.getValueAt(row, 2).toString());
         setTxtLname(model.getValueAt(row, 3).toString());
         setTxtPass((showCases? "$" : "") + model.getValueAt(row, 4).toString());
-        setTxtEmail(model.getValueAt(row, 5) == null ? "" : model.getValueAt(row, 5).toString());
-        setTxtPhone(model.getValueAt(row, showCases? 7 : 6).toString());
+        setTxtEmail(model.getValueAt(row, 6) == null ? "" : model.getValueAt(row, showCases? 6 : 5).toString());
+        setTxtPhone(model.getValueAt(row, showCases? 8 : 6).toString());
         
         if(showMyCases && showCases)
-            setTxtPhone(getTxtPhone() + " // " + model.getValueAt(row, 8).toString());
+            setTxtPhone(getTxtPhone() + " // " + model.getValueAt(row, 9).toString());
+        if(showCases)
+            setTxtPass(getTxtPass() 
+                    + " // $" + model.getValueAt(row, 5).toString() 
+                    + " // $" + (Integer.parseInt(model.getValueAt(row, 4).toString()) - Integer.parseInt(model.getValueAt(row, 5).toString())));
     }//GEN-LAST:event_tableUserMouseClicked
 
     private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
@@ -675,7 +681,7 @@ public class AdminProfile extends javax.swing.JPanel {
         lableUser.setText(showCases? "Case Status" : "Username");
         lableFname.setText(showCases? "Category" : "First Name");
         lableLname.setText(showCases? "Mosque" : "Last Name");
-        lablePass.setText(showCases? "Goal Amount" : "Password");
+        lablePass.setText(showCases? "Goal//Raise//Rem" : "Password");
         lableE.setText(showCases? "Description" : "Email");
         lableNumber.setText(showCases? (showMyCases? "Org // User ID" : "User ID") : "Phone Number");
         

@@ -116,7 +116,7 @@ public class UserProfile extends javax.swing.JPanel {
                             + "WHEN case_status = 'pending' THEN 2 "
                             + "WHEN case_status = 'completed' THEN 3 "
                             + "ELSE 4 "
-                        + "END, case_id DESC";
+                        + "END, case.case_id DESC";
                 
                 con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
                 pst = con.prepareStatement(sql);
@@ -135,7 +135,7 @@ public class UserProfile extends javax.swing.JPanel {
                             + "WHEN case_status = 'pending' THEN 2 "
                             + "WHEN case_status = 'completed' THEN 3 "
                             + "ELSE 4 "
-                        + "END, case_id DESC";
+                        + "END, case.case_id DESC";
                 
                 con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
                 pst = con.prepareStatement(sql);
