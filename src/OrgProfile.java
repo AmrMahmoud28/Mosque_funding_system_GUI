@@ -187,11 +187,12 @@ public class OrgProfile extends javax.swing.JPanel {
                 pst.setString(1, "pending");
             }
             else{
-                String sql = "SELECT case_id, case_status, category_name, mosque_name, goal_amount, "
-                    + "(SELECT SUM(donation_amount) FROM donation WHERE case_id = ?) AS Raise, "
+                String sql = "SELECT case.case_id, case_status, category_name, mosque_name, goal_amount, "
+                    + "NVL(SUM(donation_amount), 0) AS Raise, "
                     + "case_desc, case_date, adminno "
-                    + "FROM case, category, mosque, works_on "
-                    + "WHERE orgno = ? AND case_id = caseno AND case.category_id = category.category_id AND case.mosque_id = mosque.mosque_id "
+                    + "FROM case, donation, category, mosque, works_on "
+                    + "WHERE orgno = ? AND case.case_id = caseno AND case.category_id = category.category_id AND case.case_id = donation.case_id(+) AND case.mosque_id = mosque.mosque_id "
+                    + "GROUP BY case.case_id, case_status, category_name, mosque_name, goal_amount, case_desc, case_date, adminno "
                     + "ORDER BY CASE "
                         + "WHEN case_status = 'active' THEN 1 "
                         + "WHEN case_status = 'pending' THEN 2 "
@@ -356,7 +357,7 @@ public class OrgProfile extends javax.swing.JPanel {
 
         lableGoal.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         lableGoal.setForeground(new java.awt.Color(68, 68, 68));
-        lableGoal.setText("Goal Amount");
+        lableGoal.setText("Goal//Raise//Rem");
 
         lableDesc.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         lableDesc.setForeground(new java.awt.Color(68, 68, 68));
@@ -533,9 +534,12 @@ public class OrgProfile extends javax.swing.JPanel {
         setTxtStatus(model.getValueAt(row, 1).toString());
         setTxtCate(model.getValueAt(row, 2).toString());
         setTxtMosque(model.getValueAt(row, 3).toString());
-        setTxtGoal("$" + model.getValueAt(row, 4).toString());
-        setTxtDesc(model.getValueAt(row, 5) == null ? "" : model.getValueAt(row, 5).toString());
-        setTxtAdmin(model.getValueAt(row, showPending? 6 : 7).toString());
+        setTxtGoal("$" + (showPending? model.getValueAt(row, 4).toString() 
+                : (model.getValueAt(row, 4).toString() 
+                        + " // $" + model.getValueAt(row, 5).toString() 
+                        + " // $" + (Integer.parseInt(model.getValueAt(row, 4).toString()) - Integer.parseInt(model.getValueAt(row, 5).toString())))));
+        setTxtDesc(model.getValueAt(row, showPending? 5 : 6) == null ? "" : model.getValueAt(row, showPending? 5 : 6).toString());
+        setTxtAdmin(model.getValueAt(row, showPending? 6 : 8).toString());
     }//GEN-LAST:event_tableUserMouseClicked
 
     private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
@@ -545,6 +549,9 @@ public class OrgProfile extends javax.swing.JPanel {
     private void toggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toggleButtonActionPerformed
         clearAll();
         showPending = !showPending;
+        
+        toggleButton.setText(showPending? "Our Cases" : "Pending Cases");
+        lableGoal.setText(showPending? "Goal Amount" : "Goal//Raise//Rem");
         lableAdmin.setText(showPending? "Date" : "Admin ID");
         
         showTableUsers();
