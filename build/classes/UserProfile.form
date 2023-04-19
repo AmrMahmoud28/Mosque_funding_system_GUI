@@ -66,6 +66,8 @@
                       <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
                       <Component id="donateButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
+                      <Component id="myDonationButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
                       <Component id="toggleButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
                       <Component id="logoutButton" min="-2" pref="80" max="-2" attributes="0"/>
@@ -141,6 +143,7 @@
                   <Component id="logoutButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="toggleButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="donateButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="myDonationButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="77" max="-2" attributes="0"/>
           </Group>
@@ -389,6 +392,17 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="donateButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="swing.MyButton" name="myDonationButton">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="f9" green="e4" red="7c" type="rgb"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="My Donations"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="myDonationButtonActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

@@ -4,6 +4,8 @@ import java.sql.*;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 import swing.MyTextField;
@@ -216,6 +218,7 @@ public class UserProfile extends javax.swing.JPanel {
         logoutButton = new swing.MyButton();
         toggleButton = new swing.MyButton();
         donateButton = new swing.MyButton();
+        myDonationButton = new swing.MyButton();
 
         jLabel5.setForeground(new java.awt.Color(68, 68, 68));
         jLabel5.setText("Username");
@@ -329,6 +332,14 @@ public class UserProfile extends javax.swing.JPanel {
             }
         });
 
+        myDonationButton.setBackground(new java.awt.Color(124, 228, 249));
+        myDonationButton.setText("My Donations");
+        myDonationButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myDonationButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -354,6 +365,8 @@ public class UserProfile extends javax.swing.JPanel {
                         .addComponent(deleteCaseButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(74, 74, 74)
                         .addComponent(donateButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(74, 74, 74)
+                        .addComponent(myDonationButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(74, 74, 74)
                         .addComponent(toggleButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(74, 74, 74)
@@ -413,7 +426,8 @@ public class UserProfile extends javax.swing.JPanel {
                     .addComponent(deleteCaseButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(toggleButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(donateButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(donateButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(myDonationButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(77, 77, 77))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -521,6 +535,32 @@ public class UserProfile extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Please Enter your Case ID!!");
     }//GEN-LAST:event_donateButtonActionPerformed
 
+    private void myDonationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myDonationButtonActionPerformed
+        JTable donationTable = new JTable();
+        
+        try {
+            String sql = "SELECT donation_id ID, donation_date DATES, donation_amount AMOUNT, donation.case_id CASE_ID, mosque_name MOSQUE "
+                    + "FROM donation, case, mosque "
+                    + "WHERE donation.user_id = ? AND donation.case_id = case.case_id AND case.mosque_id = mosque.mosque_id "
+                    + "ORDER BY 1 DESC";
+            
+            con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
+            pst = con.prepareStatement(sql);
+
+            pst.setInt(1, getNational_id());
+            
+            rs = pst.executeQuery();
+
+            donationTable.setModel(DbUtils.resultSetToTableModel(rs));
+            con.close();
+            
+            JOptionPane.showMessageDialog(this, new JScrollPane(donationTable), "My Donations", JOptionPane.INFORMATION_MESSAGE);
+        } 
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e);
+        }
+    }//GEN-LAST:event_myDonationButtonActionPerformed
+
     private void donateCase(int caseId){
         try {
             String sql = "SELECT case_id, goal_amount, "
@@ -536,7 +576,7 @@ public class UserProfile extends javax.swing.JPanel {
 
             rs = pst.executeQuery();
             if(rs.next()){
-                String input = JOptionPane.showInputDialog(this, "Enter your Donation Amount", "Donating Case with ID " + caseId, JOptionPane.INFORMATION_MESSAGE);
+                String input = JOptionPane.showInputDialog(this, "Remaining $" + (rs.getInt(2) - rs.getInt(3)) +"\nEnter your Donation Amount:", "Donating Case with ID " + caseId, JOptionPane.INFORMATION_MESSAGE);
         
                 if(input != null){
                     if(input.matches("[0-9]+")){
@@ -610,6 +650,7 @@ public class UserProfile extends javax.swing.JPanel {
     private javax.swing.JLabel lableUsername;
     private swing.MyButton loginbutton2;
     private swing.MyButton logoutButton;
+    private swing.MyButton myDonationButton;
     private javax.swing.JTable tableCase;
     private swing.MyButton toggleButton;
     private javax.swing.JComboBox<String> txtCategory;
