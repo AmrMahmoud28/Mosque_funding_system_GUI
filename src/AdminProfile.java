@@ -547,7 +547,10 @@ public class AdminProfile extends javax.swing.JPanel {
 
     private void deleteUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteUserButtonActionPerformed
         if(showCases){
-            deleteCase();
+            if(!getTxtId().equals("") && getTxtId().matches("[0-9]+"))
+                deleteCase(Integer.parseInt(getTxtId()));
+            else
+                JOptionPane.showMessageDialog(this, "Please Enter your Case ID!!");
         }
         else{
             if(!getTxtId().equals("")){
@@ -737,8 +740,31 @@ public class AdminProfile extends javax.swing.JPanel {
         }
     }
     
-    private void deleteCase(){
+    private void deleteCase(int caseId){
+        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to DELETE the case with ID " + caseId + "?", "Confirm",
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         
+        if(confirm == JOptionPane.YES_OPTION){
+            try {
+                String sql = "DELETE FROM case WHERE case_id = ? AND case_status IN ('pending', 'cancelled')";
+                con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
+                pst = con.prepareStatement(sql);
+                
+                pst.setInt(1, caseId);
+                
+                int isDone = pst.executeUpdate();
+                con.close();
+                if (isDone == 1)
+                    JOptionPane.showMessageDialog(this, "Case was Deleted successfully");
+                else
+                    JOptionPane.showMessageDialog(this, "You can ONLY Delete Cases that is Pending or Cancelled Status");
+                showTableUsers();
+            }
+            catch (Exception e) {
+                JOptionPane.showMessageDialog(this, e);
+            }
+        }
+        clearAll();
     }
     
     private void getBoxData(JComboBox<String> box, String dataType) {
