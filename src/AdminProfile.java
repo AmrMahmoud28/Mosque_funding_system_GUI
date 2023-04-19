@@ -1,8 +1,11 @@
 
 import java.awt.event.ActionListener;
 import java.sql.*;
+import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 import swing.MyPassword;
@@ -502,10 +505,7 @@ public class AdminProfile extends javax.swing.JPanel {
 
     private void addUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addUserButtonActionPerformed
         if(showCases){
-            if(!getTxtId().equals("") && getTxtId().matches("[0-9]+"))
-                acceptCase(Integer.parseInt(getTxtId()));
-            else
-                JOptionPane.showMessageDialog(this, "Please Enter your Case ID!!");
+            createCase();
         }
         else{
             if(!isTextEmpty()){
@@ -547,10 +547,7 @@ public class AdminProfile extends javax.swing.JPanel {
 
     private void deleteUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteUserButtonActionPerformed
         if(showCases){
-            if(!getTxtId().equals("") && getTxtId().matches("[0-9]+"))
-                rejectCase(Integer.parseInt(getTxtId()));
-            else
-                JOptionPane.showMessageDialog(this, "Please Enter your Case ID!!");
+            deleteCase();
         }
         else{
             if(!getTxtId().equals("")){
@@ -685,96 +682,80 @@ public class AdminProfile extends javax.swing.JPanel {
         lableE.setText(showCases? "Description" : "Email");
         lableNumber.setText(showCases? (showMyCases? "Org // User ID" : "User ID") : "Phone Number");
         
-        addUserButton.setText(showCases? "Accept Case" : "Add User");
-        deleteUserButton.setText(showCases? "Reject Case" : "Delete User");
+        addUserButton.setText(showCases? "Create Case" : "Add User");
+        deleteUserButton.setText(showCases? "Delete Case" : "Delete User");
         updateUserButton.setText(showCases? (showMyCases? "All Cases" : "My Cases") : "Update User");
         
         showTableUsers();
     }//GEN-LAST:event_toggleButtonActionPerformed
     
-    private void acceptCase(int caseId){
-        try {
-            String sql = "SELECT * FROM case WHERE case_id = ? AND case_status = ?";
-            
-            con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
-            pst = con.prepareStatement(sql);
-            
-            pst.setInt(1, caseId);
-            pst.setString(2, "pending");
-
-            rs = pst.executeQuery();
-            if(rs.next()){
-                String input = JOptionPane.showInputDialog(this, "Enter the Goal Amount", "Accepting Case with ID " + caseId, JOptionPane.INFORMATION_MESSAGE);
+    private void createCase(){
+        JComboBox<String> userId = new JComboBox();
+        JComboBox<String> mosque = new JComboBox();
+        JComboBox<String> category = new JComboBox();
+        JTextField desc = new JFormattedTextField();
         
-                if(input != null){
-                    if(input.matches("[0-9]+")){
-                        double goalAmount = Double.parseDouble(input);
-                        
-                        sql = "UPDATE case SET "
-                                + "case_status = ?, goal_amount = ? WHERE case_id = ?";
-                        
-                        pst = con.prepareStatement(sql);
-                        
-                        pst.setString(1, "active");
-                        pst.setDouble(2, goalAmount);
-                        pst.setInt(3, caseId);
-                        
-                        int isDone = pst.executeUpdate();
-                        if (isDone == 1)
-                            JOptionPane.showMessageDialog(this, "Case with ID " + caseId + " is Accepted\nThe Goal amount is $" + goalAmount);
-                        else
-                            JOptionPane.showMessageDialog(this, "Something went wrong!!");
-                        clearAll();
-                        showTableUsers();
-                    }
-                    else
-                        JOptionPane.showMessageDialog(this, "Please Enter a valid number!!");
-                }
-                else{
-                    clearAll();
-                }
+        try {
+            getBoxData(userId, "users");
+            getBoxData(mosque, "mosque");
+            getBoxData(category, "category");
+            
+            Object[] message = {
+                "User ID: ", userId,
+                "Mosque: ", mosque,
+                "Category: ", category,
+                "Description: ", desc
+            };
+
+            int option = JOptionPane.showConfirmDialog(this, message, "Create a new Case", JOptionPane.OK_CANCEL_OPTION);
+            if(option == JOptionPane.OK_OPTION){
+                String getCategoryId = "SELECT category_id FROM category WHERE category_name = ?";
+                String getMosqueId = "SELECT mosque_id FROM mosque WHERE mosque_name = ?";
+                
+                String sql = "INSERT INTO case"
+                        + "(case_id, case_desc, case_status, goal_amount, category_id, mosque_id, user_id) "
+                        + "VALUES(case_seq.nextval, ?, ?, ?, (" + getCategoryId + "), (" + getMosqueId + "), ?)";
+                
+                con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
+                pst = con.prepareStatement(sql);
+                
+                pst.setString(1, desc.getText().trim());
+                pst.setString(2, "pending");
+                pst.setDouble(3, 0);
+                pst.setString(4, category.getSelectedItem().toString());
+                pst.setString(5, mosque.getSelectedItem().toString());
+                pst.setInt(6, Integer.parseInt(userId.getSelectedItem().toString()));
+                
+                pst.executeUpdate();
+                con.close();
+                JOptionPane.showMessageDialog(this, "Case is Created successfully\nFor User ID: " + userId.getSelectedItem().toString());
+                showTableUsers();
             }
-            else{
-                JOptionPane.showMessageDialog(this, "You can ONLY accept Pending cases!!");
-                clearAll();
-            }
-            con.close();
         } 
         catch (Exception e) {
             JOptionPane.showMessageDialog(this, e);
         }
     }
     
-    private void rejectCase(int caseId){
-        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to REJECT the case with ID " + caseId + "?", "Confirm",
-                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-        if(confirm == JOptionPane.YES_OPTION){
-            try {
-                String sql = "UPDATE case SET "
-                    + "case_status = ? WHERE case_id = ? AND case_status = ?";
-                
-                con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
-                pst = con.prepareStatement(sql);
+    private void deleteCase(){
+        
+    }
+    
+    private void getBoxData(JComboBox<String> box, String dataType) {
+        try {
+            String sql = "SELECT * FROM " + dataType;
+            con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
+            pst = con.prepareStatement(sql);
+            rs = pst.executeQuery();
 
-                pst.setString(1, "cancelled");
-                pst.setInt(2, caseId);
-                pst.setString(3, "pending");
-                
-                int isDone = pst.executeUpdate();
-                con.close();
-                if (isDone == 1)
-                    JOptionPane.showMessageDialog(this, "Case with ID " + caseId + " is Rejected");
-                else
-                    JOptionPane.showMessageDialog(this, "You can ONLY reject Pending cases!!");
-                clearAll();
-                showTableUsers();
+            while (rs.next()) {
+                String mosqueName = rs.getString(dataType.equals("users")? 1 : 2);
+                box.addItem(mosqueName);
             }
-            catch (Exception e) {
-                JOptionPane.showMessageDialog(this, e);
-            }
+            con.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e);
         }
-        else
-            clearAll();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
