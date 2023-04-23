@@ -38,7 +38,7 @@ public class Login extends javax.swing.JPanel {
     }
     
     public String getTxtPass(){
-        return String.valueOf(txtPass.getPassword()).trim();
+        return String.valueOf(txtPass.getPassword());
     }
     
     public void setTxtPass(String txtPass) {
