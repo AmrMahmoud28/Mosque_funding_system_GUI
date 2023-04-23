@@ -664,7 +664,7 @@ public class AdminProfile extends javax.swing.JPanel {
         if(showCases)
             setTxtPass(getTxtPass() 
                     + " // $" + model.getValueAt(row, 5).toString() 
-                    + " // $" + (Integer.parseInt(model.getValueAt(row, 4).toString()) - Integer.parseInt(model.getValueAt(row, 5).toString())));
+                    + " // $" + (Double.parseDouble(model.getValueAt(row, 4).toString()) - Double.parseDouble(model.getValueAt(row, 5).toString())));
     }//GEN-LAST:event_tableUserMouseClicked
 
     private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed

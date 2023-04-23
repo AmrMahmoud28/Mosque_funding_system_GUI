@@ -576,10 +576,10 @@ public class UserProfile extends javax.swing.JPanel {
 
             rs = pst.executeQuery();
             if(rs.next()){
-                String input = JOptionPane.showInputDialog(this, "Remaining $" + (rs.getInt(2) - rs.getInt(3)) +"\nEnter your Donation Amount:", "Donating Case with ID " + caseId, JOptionPane.INFORMATION_MESSAGE);
+                String input = JOptionPane.showInputDialog(this, "Remaining $" + (rs.getDouble(2) - rs.getDouble(3)) +"\nEnter your Donation Amount:", "Donating Case with ID " + caseId, JOptionPane.INFORMATION_MESSAGE);
         
                 if(input != null){
-                    if(input.matches("[0-9]+")){
+                    if(input.matches("^([1-9][0-9]*(?:[\\.][0-9]*)?|0*\\.0*[1-9][0-9]*)(?:[eE][+-][0-9]+)?$")){
                         double donationAmount = Double.parseDouble(input);
                         
                         sql = "INSERT INTO donation "

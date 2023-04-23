@@ -537,7 +537,7 @@ public class OrgProfile extends javax.swing.JPanel {
         setTxtGoal("$" + (showPending? model.getValueAt(row, 4).toString() 
                 : (model.getValueAt(row, 4).toString() 
                         + " // $" + model.getValueAt(row, 5).toString() 
-                        + " // $" + (Integer.parseInt(model.getValueAt(row, 4).toString()) - Integer.parseInt(model.getValueAt(row, 5).toString())))));
+                        + " // $" + (Double.parseDouble(model.getValueAt(row, 4).toString()) - Double.parseDouble(model.getValueAt(row, 5).toString())))));
         setTxtDesc(model.getValueAt(row, showPending? 5 : 6) == null ? "" : model.getValueAt(row, showPending? 5 : 6).toString());
         setTxtAdmin(model.getValueAt(row, showPending? 6 : 8).toString());
     }//GEN-LAST:event_tableUserMouseClicked
@@ -579,7 +579,7 @@ public class OrgProfile extends javax.swing.JPanel {
                 String input = JOptionPane.showInputDialog(this, "Enter the Goal Amount", "Accepting Case with ID " + caseId, JOptionPane.INFORMATION_MESSAGE);
         
                 if(input != null){
-                    if(input.matches("[0-9]+")){
+                    if(input.matches("^([1-9][0-9]*(?:[\\.][0-9]*)?|0*\\.0*[1-9][0-9]*)(?:[eE][+-][0-9]+)?$")){
                         double goalAmount = Double.parseDouble(input);
                         
                         sql = "UPDATE case SET "
@@ -681,7 +681,7 @@ public class OrgProfile extends javax.swing.JPanel {
                 String input = JOptionPane.showInputDialog(this, "Enter the new Goal Amount", "Updating Goal Amount of Case with ID " + caseId, JOptionPane.INFORMATION_MESSAGE);
         
                 if(input != null){
-                    if(input.matches("[0-9]+")){
+                    if(input.matches("^([1-9][0-9]*(?:[\\.][0-9]*)?|0*\\.0*[1-9][0-9]*)(?:[eE][+-][0-9]+)?$")){
                         double goalAmount = Double.parseDouble(input);
                         
                         sql = "UPDATE case SET "
