@@ -665,13 +665,16 @@ public class OrgProfile extends javax.swing.JPanel {
     
     private void updateCase(int caseId){
         try {
-            String sql = "SELECT * FROM case WHERE case_id = ? AND case_status = ?";
+            String sql = "SELECT case_id, "
+                    + "(SELECT SUM(donation_amount) FROM donation WHERE case_id = ?) AS Raise "
+                    + "FROM case WHERE case_id = ? AND case_status = ?";
             
             con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
             pst = con.prepareStatement(sql);
             
             pst.setInt(1, caseId);
-            pst.setString(2, "active");
+            pst.setInt(2, caseId);
+            pst.setString(3, "active");
 
             rs = pst.executeQuery();
             if(rs.next()){
@@ -690,8 +693,23 @@ public class OrgProfile extends javax.swing.JPanel {
                         pst.setInt(2, caseId);
                         
                         int isDone = pst.executeUpdate();
-                        if (isDone == 1)
+                        if (isDone == 1){
                             JOptionPane.showMessageDialog(this, "Goal Amount of Case with ID " + caseId + " is Updated\nThe new Goal amount is $" + goalAmount);
+                            
+                            int raise = rs.getInt(2);
+                            
+                            if(raise >= goalAmount){
+                                sql = "UPDATE case SET "
+                                        + "case_status = ? WHERE case_id = ?";
+                                
+                                pst = con.prepareStatement(sql);
+                        
+                                pst.setString(1, "completed");
+                                pst.setInt(2, caseId);
+                                
+                                pst.executeUpdate();
+                            }
+                        }
                         else
                             JOptionPane.showMessageDialog(this, "Something went wrong!!");
                         clearAll();
