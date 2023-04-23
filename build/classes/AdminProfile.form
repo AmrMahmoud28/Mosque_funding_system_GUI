@@ -404,6 +404,9 @@
     <Component class="swing.MyTextField" name="txtPhone">
     </Component>
     <Component class="swing.MyPassword" name="txtPass">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtPassActionPerformed"/>
+      </Events>
     </Component>
     <Component class="swing.MyButton" name="updateUserButton">
       <Properties>

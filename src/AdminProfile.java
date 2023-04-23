@@ -74,7 +74,7 @@ public class AdminProfile extends javax.swing.JPanel {
     }
 
     public String getTxtPass() {
-        return String.valueOf(txtPass.getPassword()).trim();
+        return String.valueOf(txtPass.getPassword());
     }
 
     public void setTxtPass(String txtPass) {
@@ -369,6 +369,12 @@ public class AdminProfile extends javax.swing.JPanel {
         lableNumber.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         lableNumber.setForeground(new java.awt.Color(68, 68, 68));
         lableNumber.setText("Phone Number");
+
+        txtPass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPassActionPerformed(evt);
+            }
+        });
 
         updateUserButton.setBackground(new java.awt.Color(124, 228, 249));
         updateUserButton.setText("Update User");
@@ -691,6 +697,10 @@ public class AdminProfile extends javax.swing.JPanel {
         
         showTableUsers();
     }//GEN-LAST:event_toggleButtonActionPerformed
+
+    private void txtPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPassActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPassActionPerformed
     
     private void createCase(){
         JComboBox<String> userId = new JComboBox();
