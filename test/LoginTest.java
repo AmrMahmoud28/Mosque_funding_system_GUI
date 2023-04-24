@@ -51,4 +51,17 @@ public class LoginTest {
         
         assertArrayEquals(expected, actual);
     }
+    
+    @Test
+    public void testLoginWithUnknownAccount(){
+        Main main = new Main();
+        
+        main.login.setTxtUser("TestUsername");
+        main.login.setTxtPass("123");
+        
+        String[] actual = main.startLogin(2);
+        String[] expected = null;
+        
+        assertArrayEquals(expected, actual);
+    }
 }
