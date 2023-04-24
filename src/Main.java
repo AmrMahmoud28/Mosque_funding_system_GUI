@@ -187,7 +187,7 @@ public class Main extends javax.swing.JFrame {
                 || signup.getTxtPhone().equals("");
     }
 
-    private String[] startLogin(int userType) {
+    protected String[] startLogin(int userType) {
         try {
             String sql;
             if (userType == 0) {
@@ -239,7 +239,7 @@ public class Main extends javax.swing.JFrame {
         return null;
     }
     
-    private boolean startSignup(){
+    protected boolean startSignup(){
         try {
             String sql = "INSERT INTO users"
                 + "(national_id, username, first_name, last_name, password, email, phone_number)"
