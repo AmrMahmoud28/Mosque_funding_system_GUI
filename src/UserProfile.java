@@ -1,4 +1,5 @@
 
+import java.awt.HeadlessException;
 import java.awt.event.ActionListener;
 import java.sql.*;
 import javax.swing.JComboBox;
@@ -149,7 +150,7 @@ public class UserProfile extends javax.swing.JPanel {
 
             tableCase.setModel(DbUtils.resultSetToTableModel(rs));
             con.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, e);
         }
     }
@@ -166,7 +167,7 @@ public class UserProfile extends javax.swing.JPanel {
                 txtMosque.addItem(mosqueName);
             }
             con.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, e);
         }
     }
@@ -183,7 +184,7 @@ public class UserProfile extends javax.swing.JPanel {
                 txtCategory.addItem(categoryName);
             }
             con.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, e);
         }
     }
@@ -467,7 +468,7 @@ public class UserProfile extends javax.swing.JPanel {
                 con.close();
                 JOptionPane.showMessageDialog(this, "Case is Created successfully");
                 showTableCases();
-            } catch (Exception e) {
+            } catch (HeadlessException | SQLException e) {
                 JOptionPane.showMessageDialog(this, e);
             }
         }
@@ -496,7 +497,7 @@ public class UserProfile extends javax.swing.JPanel {
                     JOptionPane.showMessageDialog(this, "You can ONLY Delete your Cases that is Pending or Cancelled Status");
                 showTableCases();
             }
-            catch (Exception e) {
+            catch (HeadlessException | NumberFormatException | SQLException e) {
                 JOptionPane.showMessageDialog(this, e);
             }
         }
@@ -556,7 +557,7 @@ public class UserProfile extends javax.swing.JPanel {
             
             JOptionPane.showMessageDialog(this, new JScrollPane(donationTable), "My Donations", JOptionPane.INFORMATION_MESSAGE);
         } 
-        catch (Exception e) {
+        catch (HeadlessException | SQLException e) {
             JOptionPane.showMessageDialog(this, e);
         }
     }//GEN-LAST:event_myDonationButtonActionPerformed
@@ -629,7 +630,7 @@ public class UserProfile extends javax.swing.JPanel {
             }
             con.close();
         } 
-        catch (Exception e) {
+        catch (HeadlessException | NumberFormatException | SQLException e) {
             JOptionPane.showMessageDialog(this, e);
         }
     }

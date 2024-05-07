@@ -210,7 +210,7 @@ public class OrgProfile extends javax.swing.JPanel {
             tableUser.setModel(DbUtils.resultSetToTableModel(rs));
             con.close();
         }
-        catch (Exception e) {
+        catch (SQLException e) {
             JOptionPane.showMessageDialog(this, e);
         }
     }

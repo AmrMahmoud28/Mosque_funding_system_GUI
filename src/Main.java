@@ -1,7 +1,6 @@
 
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.*;
 import javax.swing.JOptionPane;
 
@@ -34,114 +33,93 @@ public class Main extends javax.swing.JFrame {
         slide.init(login, signup);
         login.login();
 
-        login.addEventRegister(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                slide.show(1);
-                signup.signup();
-            }
+        login.addEventRegister((ActionEvent ae) -> {
+            slide.show(1);
+            signup.signup();
         });
 
-        signup.addEventBackLogin(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                slide.show(0);
-                login.login();
-            }
+        signup.addEventBackLogin((ActionEvent ae) -> {
+            slide.show(0);
+            login.login();
         });
 
-        login.addEventLogin(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                if (!isTextEmpty(login)) {
-                    if (login.getTxtUser().contains("admin")) {
-                        String[] result = startLogin(0);
-                        if (result != null) {
-                            adminProfile = new AdminProfile(Integer.parseInt(result[3]));
-                            
-                            adminProfile.setLableName("Name: " + result[0]);
-                            adminProfile.setLableId("ID: " + result[1]);
-                            adminProfile.setLableEmail("Email: " + result[2]);
-                            
-                            slide.init(adminProfile);
-                            slide.show(slide.getComponentCount() - 1);
-
-                            adminProfile.addEventLogout(new ActionListener() {
-                                @Override
-                                public void actionPerformed(ActionEvent ae) {
-                                    slide.show(0);
-                                    login.login();
-                                    clearAll();
-                                }
-                            });
-                        }
+        login.addEventLogin((ActionEvent ae) -> {
+            if (!isTextEmpty(login)) {
+                if (login.getTxtUser().contains("admin")) {
+                    String[] result = startLogin(0);
+                    if (result != null) {
+                        adminProfile = new AdminProfile(Integer.parseInt(result[3]));
+                        
+                        adminProfile.setLableName("Name: " + result[0]);
+                        adminProfile.setLableId("ID: " + result[1]);
+                        adminProfile.setLableEmail("Email: " + result[2]);
+                        
+                        slide.init(adminProfile);
+                        slide.show(slide.getComponentCount() - 1);
+                        
+                        adminProfile.addEventLogout((ActionEvent ae1) -> {
+                            slide.show(0);
+                            login.login();
+                            clearAll();
+                        });
                     }
-                    else if(login.getTxtUser().contains("gov")){
-                        String[] result = startLogin(1);
-                        if (result != null) {
-                            orgProfile = new OrgProfile(Integer.parseInt(result[1]));
-                            
-                            orgProfile.setLabelTitle(result[0].split(" ")[result[0].split(" ").length - 1] + " Organization");
-                            orgProfile.setLableName("Name: " + result[0]);
-                            orgProfile.setLableId("ID: " + result[1]);
-                            orgProfile.setLableEmail("Email: " + result[2]);
-                            
-                            slide.init(orgProfile);
-                            slide.show(slide.getComponentCount() - 1);
-
-                            orgProfile.addEventLogout(new ActionListener() {
-                                @Override
-                                public void actionPerformed(ActionEvent ae) {
-                                    slide.show(0);
-                                    login.login();
-                                    clearAll();
-                                }
-                            });
-                        }
-                    }
-                    else {
-                        String[] result = startLogin(2);
-                        if (result != null) {
-                            userProfile = new UserProfile(Integer.parseInt(result[3]));
-                            
-                            userProfile.setLableName("Name: " + result[0]);
-                            userProfile.setLableUsername("Username: " + result[1]);
-                            userProfile.setLableEmail("Email: " + result[2]);
-
-                            slide.init(userProfile);
-                            slide.show(slide.getComponentCount() - 1);
-
-                            userProfile.addEventLogout(new ActionListener() {
-                                @Override
-                                public void actionPerformed(ActionEvent ae) {
-                                    slide.show(0);
-                                    login.login();
-                                    clearAll();
-                                }
-                            });
-                        }
-                    }
-                    clearAll();
                 }
-                else
-                    JOptionPane.showMessageDialog(null, "Please Enter all Information");
+                else if(login.getTxtUser().contains("gov")){
+                    String[] result = startLogin(1);
+                    if (result != null) {
+                        orgProfile = new OrgProfile(Integer.parseInt(result[1]));
+                        
+                        orgProfile.setLabelTitle(result[0].split(" ")[result[0].split(" ").length - 1] + " Organization");
+                        orgProfile.setLableName("Name: " + result[0]);
+                        orgProfile.setLableId("ID: " + result[1]);
+                        orgProfile.setLableEmail("Email: " + result[2]);
+                        
+                        slide.init(orgProfile);
+                        slide.show(slide.getComponentCount() - 1);
+                        
+                        orgProfile.addEventLogout((ActionEvent ae1) -> {
+                            slide.show(0);
+                            login.login();
+                            clearAll();
+                        });
+                    }
+                }
+                else {
+                    String[] result = startLogin(2);
+                    if (result != null) {
+                        userProfile = new UserProfile(Integer.parseInt(result[3]));
+                        
+                        userProfile.setLableName("Name: " + result[0]);
+                        userProfile.setLableUsername("Username: " + result[1]);
+                        userProfile.setLableEmail("Email: " + result[2]);
+                        
+                        slide.init(userProfile);
+                        slide.show(slide.getComponentCount() - 1);
+                        
+                        userProfile.addEventLogout((ActionEvent ae1) -> {
+                            slide.show(0);
+                            login.login();
+                            clearAll();
+                        });
+                    }
+                }
+                clearAll();
             }
+            else
+                JOptionPane.showMessageDialog(null, "Please Enter all Information");
         });
 
-        signup.addEventSignup(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                if (!isTextEmpty(signup)) {
-                    if(startSignup()){
-                        slide.show(0);
-                        login.login();
-                        JOptionPane.showMessageDialog(null, "Your Account is created successfully\nPlease Login!");
-                    }
-                    clearAll();
+        signup.addEventSignup((ActionEvent ae) -> {
+            if (!isTextEmpty(signup)) {
+                if(startSignup()){
+                    slide.show(0);
+                    login.login();
+                    JOptionPane.showMessageDialog(null, "Your Account is created successfully\nPlease Login!");
                 }
-                else
-                    JOptionPane.showMessageDialog(null, "Please Enter all Required Information");
+                clearAll();
             }
+            else
+                JOptionPane.showMessageDialog(null, "Please Enter all Required Information");
         });
     }
 
@@ -190,14 +168,16 @@ public class Main extends javax.swing.JFrame {
     protected String[] startLogin(int userType) {
         try {
             String sql;
-            if (userType == 0) {
-                sql = "SELECT * FROM admin WHERE admin_email = ? AND password = ?";
-            }
-            else if(userType == 1){
-                sql = "SELECT * FROM organization WHERE org_email = ? AND org_id = ?";
-            }
-            else {
-                sql = "SELECT * FROM users WHERE username = ? AND password = ?";
+            switch (userType) {
+                case 0:
+                    sql = "SELECT * FROM admin WHERE admin_email = ? AND password = ?";
+                    break;
+                case 1:
+                    sql = "SELECT * FROM organization WHERE org_email = ? AND org_id = ?";
+                    break;
+                default:
+                    sql = "SELECT * FROM users WHERE username = ? AND password = ?";
+                    break;
             }
 
             con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
@@ -209,23 +189,25 @@ public class Main extends javax.swing.JFrame {
             rs = pst.executeQuery();
             if (rs.next()) {
                 String[] result = new String[4];
-                if (userType == 0) {
-                    result[0] = (rs.getString(2));
-                    result[1] = rs.getString(1);
-                    result[2] = rs.getString(3);
-                    result[3] = rs.getString(1);
-                }
-                else if(userType == 1){
-                    result[0] = (rs.getString(2));
-                    result[1] = rs.getString(1);
-                    result[2] = rs.getString(3);
-                    result[3] = rs.getString(1);
-                }
-                else {
-                    result[0] = (rs.getString(3) + " " + rs.getString(4));
-                    result[1] = rs.getString(2);
-                    result[2] = rs.getString(6);
-                    result[3] = rs.getString(1);
+                switch (userType) {
+                    case 0:
+                        result[0] = (rs.getString(2));
+                        result[1] = rs.getString(1);
+                        result[2] = rs.getString(3);
+                        result[3] = rs.getString(1);
+                        break;
+                    case 1:
+                        result[0] = (rs.getString(2));
+                        result[1] = rs.getString(1);
+                        result[2] = rs.getString(3);
+                        result[3] = rs.getString(1);
+                        break;
+                    default:
+                        result[0] = (rs.getString(3) + " " + rs.getString(4));
+                        result[1] = rs.getString(2);
+                        result[2] = rs.getString(6);
+                        result[3] = rs.getString(1);
+                        break;
                 }
                 return result;
             } else {
@@ -260,7 +242,7 @@ public class Main extends javax.swing.JFrame {
             con.close();
             return true;
         }
-        catch (Exception e) {
+        catch (SQLException e) {
             if(e.toString().contains("unique"))
                 JOptionPane.showMessageDialog(this, "This Account already exists");
             else if(e.toString().contains("number"))
@@ -408,10 +390,8 @@ public class Main extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Main().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Main().setVisible(true);
         });
     }
 

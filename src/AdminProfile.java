@@ -1,4 +1,5 @@
 
+import java.awt.HeadlessException;
 import java.awt.event.ActionListener;
 import java.sql.*;
 import javax.swing.JComboBox;
@@ -213,7 +214,7 @@ public class AdminProfile extends javax.swing.JPanel {
             tableUser.setModel(DbUtils.resultSetToTableModel(rs));
             con.close();
         }
-        catch (Exception e) {
+        catch (SQLException e) {
             JOptionPane.showMessageDialog(this, e);
         }
     }
@@ -536,7 +537,7 @@ public class AdminProfile extends javax.swing.JPanel {
                     JOptionPane.showMessageDialog(this, "Account is Created successfully");
                     showTableUsers();
                 }
-                catch (Exception e) {
+                catch (HeadlessException | SQLException e) {
                     if(e.toString().contains("unique"))
                         JOptionPane.showMessageDialog(this, "This Account already exists");
                     else if(e.toString().contains("number"))
@@ -576,7 +577,7 @@ public class AdminProfile extends javax.swing.JPanel {
 
                     showTableUsers();
                 }
-                catch (Exception e) {
+                catch (HeadlessException | SQLException e) {
                     if(e.toString().contains("child"))
                         JOptionPane.showMessageDialog(this, "This Account is active and cannot be Deleted");
                     else
@@ -638,7 +639,7 @@ public class AdminProfile extends javax.swing.JPanel {
                         JOptionPane.showMessageDialog(this, "No User with that National ID");
                     showTableUsers();
                 }
-                catch (Exception e) {
+                catch (HeadlessException | SQLException e) {
                     if(e.toString().contains("unique"))
                         JOptionPane.showMessageDialog(this, "This Information is already taken");
                     else if(e.toString().contains("number"))
@@ -745,7 +746,7 @@ public class AdminProfile extends javax.swing.JPanel {
                 showTableUsers();
             }
         } 
-        catch (Exception e) {
+        catch (HeadlessException | NumberFormatException | SQLException e) {
             JOptionPane.showMessageDialog(this, e);
         }
     }
@@ -770,7 +771,7 @@ public class AdminProfile extends javax.swing.JPanel {
                     JOptionPane.showMessageDialog(this, "You can ONLY Delete Cases that is Pending or Cancelled Status");
                 showTableUsers();
             }
-            catch (Exception e) {
+            catch (HeadlessException | SQLException e) {
                 JOptionPane.showMessageDialog(this, e);
             }
         }
@@ -789,7 +790,7 @@ public class AdminProfile extends javax.swing.JPanel {
                 box.addItem(mosqueName);
             }
             con.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, e);
         }
     }
