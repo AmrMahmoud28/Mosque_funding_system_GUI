@@ -1,4 +1,5 @@
 
+import java.awt.HeadlessException;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.sql.*;
@@ -214,7 +215,7 @@ public class Main extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Wrong Username or Password");
             }
             con.close();
-        } catch (Exception e) {
+        } catch (HeadlessException | SQLException e) {
             JOptionPane.showMessageDialog(this, e);
         }
         login.login();

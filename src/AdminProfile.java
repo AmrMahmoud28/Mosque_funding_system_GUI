@@ -1,6 +1,9 @@
 
 import java.awt.HeadlessException;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.sql.*;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
@@ -36,8 +39,22 @@ public class AdminProfile extends javax.swing.JPanel {
         this.admin_id = admin_id;
         
         initComponents();
+        connectServer();
         showTableUsers();
-        System.out.println("Admin");
+    }
+    
+    private void connectServer(){
+        try (Socket socket = new Socket("localhost", 8888)){
+            System.out.println("Connected to Server!");
+            ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
+            
+            String clientMessage = ("Admin:\n  " + getLableName() + "\n");
+            
+            outputStream.writeObject(clientMessage);
+        }
+        catch(IOException e){
+            System.out.println(e);
+        }
     }
     
     // ***************************************************************

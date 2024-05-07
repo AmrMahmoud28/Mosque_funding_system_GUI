@@ -1,5 +1,9 @@
 
+import java.awt.HeadlessException;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.sql.*;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -31,9 +35,23 @@ public class OrgProfile extends javax.swing.JPanel {
         this.org_id = org_id;
         
         initComponents();
+        connectServer();
         showTableUsers();
         txtGoal.setEchoChar((char) 0);
-        System.out.println("Org");
+    }
+    
+    private void connectServer(){
+        try (Socket socket = new Socket("localhost", 8888)){
+            System.out.println("Connected to Server!");
+            ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
+            
+            String clientMessage = ("Organization:\n  " + getLableName() + "\n");
+            
+            outputStream.writeObject(clientMessage);
+        }
+        catch(IOException e){
+            System.out.println(e);
+        }
     }
     
     // ***************************************************************
@@ -626,7 +644,7 @@ public class OrgProfile extends javax.swing.JPanel {
             }
             con.close();
         } 
-        catch (Exception e) {
+        catch (HeadlessException | NumberFormatException | SQLException e) {
             JOptionPane.showMessageDialog(this, e);
         }
     }
@@ -655,7 +673,7 @@ public class OrgProfile extends javax.swing.JPanel {
                 clearAll();
                 showTableUsers();
             }
-            catch (Exception e) {
+            catch (HeadlessException | SQLException e) {
                 JOptionPane.showMessageDialog(this, e);
             }
         }
@@ -728,7 +746,7 @@ public class OrgProfile extends javax.swing.JPanel {
             }
             con.close();
         } 
-        catch (Exception e) {
+        catch (HeadlessException | NumberFormatException | SQLException e) {
             JOptionPane.showMessageDialog(this, e);
         }
     }
