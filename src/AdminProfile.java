@@ -39,23 +39,23 @@ public class AdminProfile extends javax.swing.JPanel {
         this.admin_id = admin_id;
         
         initComponents();
-        connectServer();
+//        connectServer();
         showTableUsers();
     }
     
-    private void connectServer(){
-        try (Socket socket = new Socket("localhost", 8888)){
-            System.out.println("Connected to Server!");
-            ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
-            
-            String clientMessage = ("Admin:\n  " + getLableName() + "\n");
-            
-            outputStream.writeObject(clientMessage);
-        }
-        catch(IOException e){
-            System.out.println(e);
-        }
-    }
+//    private void connectServer(){
+//        try (Socket socket = new Socket("localhost", 8888)){
+//            System.out.println("Connected to Server!");
+//            ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
+//            
+//            String clientMessage = ("Admin:\n  " + getLableName() + "\n");
+//            
+//            outputStream.writeObject(clientMessage);
+//        }
+//        catch(IOException e){
+//            System.out.println(e);
+//        }
+//    }
     
     // ***************************************************************
 

@@ -2,6 +2,9 @@
 import java.awt.HeadlessException;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.sql.*;
 import javax.swing.JOptionPane;
 
@@ -58,6 +61,8 @@ public class Main extends javax.swing.JFrame {
                         slide.init(adminProfile);
                         slide.show(slide.getComponentCount() - 1);
                         
+                        connectServer("Admin", adminProfile.getLableName());
+                        
                         adminProfile.addEventLogout((ActionEvent ae1) -> {
                             slide.show(0);
                             login.login();
@@ -78,6 +83,8 @@ public class Main extends javax.swing.JFrame {
                         slide.init(orgProfile);
                         slide.show(slide.getComponentCount() - 1);
                         
+                        connectServer("Organization", orgProfile.getLableName());
+                        
                         orgProfile.addEventLogout((ActionEvent ae1) -> {
                             slide.show(0);
                             login.login();
@@ -96,6 +103,8 @@ public class Main extends javax.swing.JFrame {
                         
                         slide.init(userProfile);
                         slide.show(slide.getComponentCount() - 1);
+                        
+                        connectServer("User", userProfile.getLableUsername());
                         
                         userProfile.addEventLogout((ActionEvent ae1) -> {
                             slide.show(0);
@@ -253,6 +262,20 @@ public class Main extends javax.swing.JFrame {
             signup.signup();
         }
         return false;
+    }
+    
+    private void connectServer(String userType, String userName){
+        try (Socket socket = new Socket("localhost", 8888)){
+            System.out.println("Connected to Server!");
+            ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
+            
+            String clientMessage = (userType + ":\n  " + userName + "\n");
+            
+            outputStream.writeObject(clientMessage);
+        }
+        catch(IOException e){
+            System.out.println(e);
+        }
     }
 
     /**

@@ -36,25 +36,25 @@ public class UserProfile extends javax.swing.JPanel {
         this.national_id = national_id;
 
         initComponents();
-        connectServer();
+//        connectServer();
         showTableCases();
         getMosques();
         getCategoris();
     }
     
-    private void connectServer(){
-        try (Socket socket = new Socket("localhost", 8888)){
-            System.out.println("Connected to Server!");
-            ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
-            
-            String clientMessage = ("User:\n  " + getLableUsername() + "\n");
-            
-            outputStream.writeObject(clientMessage);
-        }
-        catch(IOException e){
-            System.out.println(e);
-        }
-    }
+//    private void connectServer(){
+//        try (Socket socket = new Socket("localhost", 8888)){
+//            System.out.println("Connected to Server!");
+//            ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
+//            
+//            String clientMessage = ("User:\n  " + getLableUsername() + "\n");
+//            
+//            outputStream.writeObject(clientMessage);
+//        }
+//        catch(IOException e){
+//            System.out.println(e);
+//        }
+//    }
 
     // ***************************************************************
     public String getTxtCategory() {
