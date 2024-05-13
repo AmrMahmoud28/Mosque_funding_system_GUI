@@ -1,8 +1,8 @@
 
-import java.awt.HeadlessException;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.sql.*;
@@ -50,7 +50,7 @@ public class Main extends javax.swing.JFrame {
         login.addEventLogin((ActionEvent ae) -> {
             if (!isTextEmpty(login)) {
                 if (login.getTxtUser().contains("admin")) {
-                    String[] result = startLogin(0);
+                    String[] result = startLogin("0");
                     if (result != null) {
                         adminProfile = new AdminProfile(Integer.parseInt(result[3]));
                         
@@ -61,8 +61,6 @@ public class Main extends javax.swing.JFrame {
                         slide.init(adminProfile);
                         slide.show(slide.getComponentCount() - 1);
                         
-                        connectServer("Admin", adminProfile.getLableName());
-                        
                         adminProfile.addEventLogout((ActionEvent ae1) -> {
                             slide.show(0);
                             login.login();
@@ -71,7 +69,7 @@ public class Main extends javax.swing.JFrame {
                     }
                 }
                 else if(login.getTxtUser().contains("gov")){
-                    String[] result = startLogin(1);
+                    String[] result = startLogin("1");
                     if (result != null) {
                         orgProfile = new OrgProfile(Integer.parseInt(result[1]));
                         
@@ -83,8 +81,6 @@ public class Main extends javax.swing.JFrame {
                         slide.init(orgProfile);
                         slide.show(slide.getComponentCount() - 1);
                         
-                        connectServer("Organization", orgProfile.getLableName());
-                        
                         orgProfile.addEventLogout((ActionEvent ae1) -> {
                             slide.show(0);
                             login.login();
@@ -93,7 +89,7 @@ public class Main extends javax.swing.JFrame {
                     }
                 }
                 else {
-                    String[] result = startLogin(2);
+                    String[] result = startLogin("2");
                     if (result != null) {
                         userProfile = new UserProfile(Integer.parseInt(result[3]));
                         
@@ -103,8 +99,6 @@ public class Main extends javax.swing.JFrame {
                         
                         slide.init(userProfile);
                         slide.show(slide.getComponentCount() - 1);
-                        
-                        connectServer("User", userProfile.getLableUsername());
                         
                         userProfile.addEventLogout((ActionEvent ae1) -> {
                             slide.show(0);
@@ -174,60 +168,32 @@ public class Main extends javax.swing.JFrame {
                 || signup.getTxtLName().equals("")
                 || signup.getTxtPhone().equals("");
     }
-
-    protected String[] startLogin(int userType) {
-        try {
-            String sql;
-            switch (userType) {
-                case 0:
-                    sql = "SELECT * FROM admin WHERE admin_email = ? AND password = ?";
-                    break;
-                case 1:
-                    sql = "SELECT * FROM organization WHERE org_email = ? AND org_id = ?";
-                    break;
-                default:
-                    sql = "SELECT * FROM users WHERE username = ? AND password = ?";
-                    break;
+    
+    protected String[] startLogin(String userType){
+        try (Socket socket = new Socket("localhost", 8888)){
+            System.out.println("Connected to Server!");
+            
+            ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
+            ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
+            
+            String[] userData = {userType, login.getTxtUser(), login.getTxtPass()};
+            outputStream.writeObject(userData);
+            outputStream.flush();
+            
+            String[] result = (String[]) inputStream.readObject();
+            if(result[0].equals("Wrong") || result[0].equals("Exception")){
+                JOptionPane.showMessageDialog(this, result[1]);
+                login.login();
+                return null;
             }
-
-            con = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-TQURACRK:1521:XE", "system", "MarMar28");
-            pst = con.prepareStatement(sql);
-
-            pst.setString(1, login.getTxtUser());
-            pst.setString(2, login.getTxtPass());
-
-            rs = pst.executeQuery();
-            if (rs.next()) {
-                String[] result = new String[4];
-                switch (userType) {
-                    case 0:
-                        result[0] = (rs.getString(2));
-                        result[1] = rs.getString(1);
-                        result[2] = rs.getString(3);
-                        result[3] = rs.getString(1);
-                        break;
-                    case 1:
-                        result[0] = (rs.getString(2));
-                        result[1] = rs.getString(1);
-                        result[2] = rs.getString(3);
-                        result[3] = rs.getString(1);
-                        break;
-                    default:
-                        result[0] = (rs.getString(3) + " " + rs.getString(4));
-                        result[1] = rs.getString(2);
-                        result[2] = rs.getString(6);
-                        result[3] = rs.getString(1);
-                        break;
-                }
+            else{
                 return result;
-            } else {
-                JOptionPane.showMessageDialog(this, "Wrong Username or Password");
             }
-            con.close();
-        } catch (HeadlessException | SQLException e) {
-            JOptionPane.showMessageDialog(this, e);
         }
-        login.login();
+        catch(IOException | ClassNotFoundException e){
+            System.out.println(e);
+        }
+        
         return null;
     }
     
@@ -262,20 +228,6 @@ public class Main extends javax.swing.JFrame {
             signup.signup();
         }
         return false;
-    }
-    
-    private void connectServer(String userType, String userName){
-        try (Socket socket = new Socket("localhost", 8888)){
-            System.out.println("Connected to Server!");
-            ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
-            
-            String clientMessage = (userType + ":\n  " + userName + "\n");
-            
-            outputStream.writeObject(clientMessage);
-        }
-        catch(IOException e){
-            System.out.println(e);
-        }
     }
 
     /**
