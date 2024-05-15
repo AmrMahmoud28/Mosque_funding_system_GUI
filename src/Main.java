@@ -49,7 +49,7 @@ public class Main extends javax.swing.JFrame {
 
         login.addEventLogin((ActionEvent ae) -> {
             if (!isTextEmpty(login)) {
-                if (login.getTxtUser().contains("admin")) {
+                if (login.getTxtUser().contains("@admin.mfs.com")) {
                     String[] result = startLogin("0");
                     if (result != null) {
                         adminProfile = new AdminProfile(Integer.parseInt(result[3]));
@@ -59,7 +59,7 @@ public class Main extends javax.swing.JFrame {
                         adminProfile.setLableEmail("Email: " + result[2]);
                         
                         slide.init(adminProfile);
-                        slide.show(slide.getComponentCount() - 1);
+                        slide.show(slide.getComponentCount() - 1); // Show Last added screen
                         
                         adminProfile.addEventLogout((ActionEvent ae1) -> {
                             slide.show(0);
@@ -191,7 +191,7 @@ public class Main extends javax.swing.JFrame {
             }
         }
         catch(IOException | ClassNotFoundException e){
-            System.out.println(e);
+            JOptionPane.showMessageDialog(this, e);
         }
         
         return null;
